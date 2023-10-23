@@ -1,7 +1,6 @@
 const {Client, GatewayIntentBits, Partials, ActivityType, PresenceUpdateStatus, Collection} = require('discord.js');
 const BotUtils = require('./Utils');
-const Pusher = require('pusher');
-const PusherListen = require('pusher-js/node')
+const {io} = require('socket.io-client');
 
 module.exports = class extends Client{
     constructor(options = {
@@ -40,16 +39,7 @@ module.exports = class extends Client{
         this.slashArray = [];
 
         this.utils = new BotUtils(this);
-        this.pusherTrigger = new Pusher({
-            appId: process.env.PUSHER_APP_ID,
-            key: process.env.PUSHER_KEY,
-            secret: process.env.PUSHER_SECRET,
-            cluster: process.env.PUSHER_CLUSTER,
-            useTLS: true
-          });
-          this.pusherListen = new PusherListen(process.env.PUSHER_KEY, {
-            cluster: process.env.PUSHER_CLUSTER
-          });
+        this.io = io("http://localhost:3000")
         this.start();
     }
 

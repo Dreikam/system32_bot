@@ -4,9 +4,8 @@ const passport = require('passport');
 router.get('/', passport.authenticate('discord'))
 
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/forbiden'
-}), (req, res) => {
-    res.send('Ok')
-});
+    failureRedirect: '/forbiden',
+    successRedirect: '/dashboard'
+}));
 
 module.exports = router;

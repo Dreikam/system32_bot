@@ -1,8 +1,13 @@
 require('dotenv').config();
 require('colors');
-setTimeout(() => {
-    require('../dashboard/app')
-}, 3000)
 
+//importar e iniciar servicios
+require('../dashboard/app')
+const db = require('./structures/Database');
 const Bot = require('./structures/Client.js');
+
+//Conexion a DB
+db.then(() => console.log('DB conectada')).catch(e => console.log(e))
+
+//Inicializacion del bot
 new Bot();
