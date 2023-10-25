@@ -24,6 +24,7 @@ app.use(express.json())
 .use(passport.session())
 .set('view engine', '.hbs')
 .set('views', path.join(__dirname, './views'))
+.use(express.static(__dirname + '/public'))
 .engine('.hbs', engine({
     layoutsDir: path.join(app.get('views'), 'layouts'),
     partialsDir: path.join(app.get('views'), 'partials'),
@@ -36,7 +37,7 @@ app.use('/dashboard', require('./Routes/dashboard.routes.js'));
 
 //servidor con express
 const server = app.listen(PORT, () => {
-    console.log("Server Listo");
+    console.log("Server Listo en http://localhost:3000");
 });
 
 const io = new Server(server);
