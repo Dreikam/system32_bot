@@ -78,3 +78,16 @@ https://www.conventionalcommits.org/es/v1.0.0/
 git add .gitignore
 git commit -m "feat!: configuration"
 ```
+
+```
+npx tsc --init
+npx tsc
+```
+
+```
+npm i @hapi/boom
+```
+
+```
+npm i ts-node-dev -D
+```

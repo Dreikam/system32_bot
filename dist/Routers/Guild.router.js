@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const Guilds_1 = require("../Controllers/Guilds");
+const Guilds_2 = require("../Services/db/Guilds");
+const app = (0, express_1.Router)();
+const services = new Guilds_2.GuildServices();
+const controller = new Guilds_1.GuildController(services);
+app.get('/:id', controller.getGuild);
+exports.default = app;
