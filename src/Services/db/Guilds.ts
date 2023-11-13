@@ -18,6 +18,16 @@ export class GuildServices {
       if (error) return console.error(error);
     });
   }
-  editGuild(data: any) {}
-  deleteGuild(id: string) {}
+  editGuild(data: any) {
+    const index = database.findIndex((guild) => guild.id == data.id);
+    
+    return database[index] = data;
+  }
+  deleteGuild(id: string) {
+    const guild = database.find((guild) => guild.id == id);
+    const index = database.indexOf(guild)
+    if(guild.id == id) {
+      return database.splice(index, 1)
+    }
+  }
 }
