@@ -4,17 +4,18 @@
   "description": "```sh\r git add <. / file/folders> - agregar al git los archivos que quiero guardar\r git commit -am \"comentario\" - darle un comentario a los archivo para saber que carajo modifique\r git branch API - creo una rama especial para mi desastre\r git checkout API - me nuevo a ese desastre\r git push <remote> <rama> - subir mi desastres a github\r git remote add <nombre del desastres> <URL DEL REPO> - agregar link del repo\r ```",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "start": "ts-node dist/app.js",
-    "dev": "ts-node-dev --respawn --transpile-only --poll ./src/app.ts",
-    "build": "tsc"
+    "dev": "ts-node-dev --respawn --transpile-only --poll ./src/api.ts",
+    "build": "tsc",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
+    "@prisma/client": "^5.5.2",
     "cors": "2.8.5",
     "dotenv": "16.3.1",
     "express": "4.18.2",
@@ -38,6 +39,7 @@
     "jest": "29.7.0",
     "lint-staged": "15.0.2",
     "nodemon": "3.0.1",
+    "prisma": "^5.5.2",
     "ts-node": "10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",

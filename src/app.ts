@@ -10,11 +10,9 @@ const app = express();
 
 app.use(helmet());
 app.use(morgan("dev"));
-app.use('/guild', Guild);
+app.use('/guilds', Guild);
 app.use(logErrors);
 app.use(boomErrorHandlr);
 app.use(ErrorHandler)
 
-app.listen(3000, () => {
-  console.log("APP PRENDIDo");
-});
+export default app

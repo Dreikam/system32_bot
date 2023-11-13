@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id String @id @default(uuid())
+  guild Int @unique
+  name String
+  avatar String?
+  memberCount Int?
+}
+
+model Members {
+  id String @id @default(uuid())
+  bank Bank? @relation(fields: [bankId], references: [id])
+  bankId String @unique
+  wallet wallet? @relation(fields: [walletId], references: [id])
+  walletId String @unique
+
+  creatAT DateTime @default(now())
+}
+
+model Bank {
+  id String @id @default(uuid())
+  member Members?
+}
+
+model wallet {
+  id String @id @default(uuid())
+  member Members?
+}
+// https://www.prisma.io/docs/concepts/components/prisma-schema/relations

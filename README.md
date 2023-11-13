@@ -91,3 +91,17 @@ npm i @hapi/boom
 ```
 npm i ts-node-dev -D
 ```
+
+```
+npm i prisma -D
+npx prisma init --datasource-provider sqlite
+```
+
+```
+mysql://usuer:password@host:port/database
+postgress://usuer:password@host:port/database
+
+prisma.io
+
+npx prisma migrate dev
+```

@@ -1,33 +1,62 @@
 import * as fs from "fs";
-
-let database = [
-  {
-    id: "1",
-    name: "Zeew Space",
-  },
-];
+import { db } from "../db";
 
 export class GuildServices {
-  getGuild(id: string) {
-    return database.find((guild) => guild.id == id);
-  }
-  createGuild(data: any) {
-    const jsonData = JSON.stringify(data);
-
-    fs.writeFile("user.json", jsonData, (error) => {
-      if (error) return console.error(error);
+  async getGuild(id: string) {
+    const getGuild = await db.guild.findUnique({
+      where: {
+        id,
+      },
     });
+
+    return getGuild;
   }
-  editGuild(data: any) {
-    const index = database.findIndex((guild) => guild.id == data.id);
-    
-    return database[index] = data;
+  async createGuild(data: any) {
+    const newGuild = await db.guild.create({
+      data,
+    });
+
+    return newGuild;
+
+    // let getGuld = database.read();
+    // if (!getGuld[data.id]) {
+    //   getGuld[data.id] = data;
+    // }
+    // database.write(getGuld);
+    // return getGuld[data.id];
   }
-  deleteGuild(id: string) {
-    const guild = database.find((guild) => guild.id == id);
-    const index = database.indexOf(guild)
-    if(guild.id == id) {
-      return database.splice(index, 1)
-    }
+  async editGuild(id, data: any) {
+    const updateGuild = await db.guild.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return updateGuild;
+
+    // let getGuld = database.read();
+    // if (!getGuld[data.id]) return false;
+
+    // getGuld[data.id] = {
+    //   ...getGuld[data.id],
+    //   ...data,
+    // };
+
+    // database.write(getGuld);
+    // return getGuld[data.id];
+  }
+  async deleteGuild(id: string) {
+    const deleteUpdate = await db.guild.delete({
+      where: { id },
+    });
+
+    return deleteUpdate
+
+    // const guild = database.find((guild) => guild.id == id);
+    // const index = database.indexOf(guild)
+    // if(guild.id == id) {
+    //   return database.splice(index, 1)
+    // }
   }
 }
