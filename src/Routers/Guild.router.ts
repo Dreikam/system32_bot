@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { GuildController } from "../Controllers/Guilds"
+import { GuildController } from "@Controllers/Guilds"
 
 const app = Router()
 const controller = new GuildController()

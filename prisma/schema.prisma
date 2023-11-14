@@ -10,31 +10,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Guild {
+model Guilds {
   id String @id @default(uuid())
-  guild Int @unique
+  guildId String @unique
   name String
   avatar String?
   memberCount Int?
+
+  createdAT DateTime @default(now())
+  tickets GuildToMemberTickets[]
+
+  @@index([guildId])
 }
 
 model Members {
   id String @id @default(uuid())
-  bank Bank? @relation(fields: [bankId], references: [id])
-  bankId String @unique
-  wallet wallet? @relation(fields: [walletId], references: [id])
-  walletId String @unique
+  discordId String @unique
+  guildId String @unique
+  name String
+  avatar String?
+  banner String?
+  tickets GuildToMemberTickets[] // one-to-many
+  createdAT DateTime @default(now())
 
-  creatAT DateTime @default(now())
+  @@index([discordId, guildId])
 }
 
-model Bank {
+model Tickets {
   id String @id @default(uuid())
-  member Members?
+  name String
+  messages String?
+  channelId String?
+  createdAT DateTime @default(now())
+  tickets GuildToMemberTickets[]
 }
 
-model wallet {
+model GuildToMemberTickets {
   id String @id @default(uuid())
-  member Members?
+  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guildId String
+  member Members @relation(fields: [memberId], references: [id])
+  memberId String
+  ticket Tickets @relation(fields: [ticketId], references: [id])
+  ticketId String
 }
+
 // https://www.prisma.io/docs/concepts/components/prisma-schema/relations

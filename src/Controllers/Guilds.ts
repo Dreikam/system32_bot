@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express'
-import { GuildServices } from "../Services/db/Guilds";
+import { GuildServices } from "@Services/db/Guilds";
 import Boom from '@hapi/boom'
 
 const services = new GuildServices()
