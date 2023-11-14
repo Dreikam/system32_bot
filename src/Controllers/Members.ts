@@ -26,10 +26,8 @@ export class MembersController {
     })
   }
 
-  async createMember(req: Request, res: Response, next: NextFunction) {  
-    if(Object.keys(req.body).length == 0) return next(Boom.badRequest('No hay datos'))  
-
-    const createMember = await services.createMember(req.body);
+  async createMember(req: Request, res: Response, next: NextFunction) {
+    const createMember = await services.createMember(req.query);
 
     res.json({
       data: createMember
@@ -37,8 +35,6 @@ export class MembersController {
   }
 
   async updateMember(req: Request, res: Response, next: NextFunction) {  
-    if(Object.keys(req.body).length == 0) return next(Boom.badRequest('No hay datos'))  
-
     const updateMember = await services.updateMember(req.params.memberId, req.body);
 
     res.json({

@@ -1,0 +1,19 @@
+{
+  "guldCreate": {
+    "id": "c16825d7-cc91-48e5-9b94-47924c9ce7b2",
+    "guildId": "exampleGuildId123",
+    "name": "Example Guild",
+    "avatar": "https://example.com/avatar.jpg",
+    "memberCount": 100,
+    "createdAT": "2023-11-14T21:07:43.073Z"
+  },
+  "memberCreate": {
+    "id": "2bae6ae5-6b28-4e91-b818-2a831b2da53f",
+    "discordId": "403695999941345280",
+    "guildId": "exampleGuildId123",
+    "name": "Kamerr Ezz",
+    "avatar": null,
+    "banner": null,
+    "createdAT": "2023-11-14T21:07:43.164Z"
+  }
+}

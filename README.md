@@ -113,3 +113,7 @@ PUT = Actualizar toda la informacion
 PATCH = Actualizar algo espesifico
 DELETE = Eliminar informacion
 ```
+
+```
+npx prisma studio
+```
