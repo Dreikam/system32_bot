@@ -19,13 +19,14 @@ model Guilds {
 
   createdAT DateTime @default(now())
   tickets GuildToMemberTickets[]
-
+  members Members[]
   @@index([guildId])
 }
 
 model Members {
   id String @id @default(uuid())
   discordId String @unique
+  guild Guilds @relation(fields: [guildId], references: [guildId])
   guildId String @unique
   name String
   avatar String?
@@ -39,7 +40,6 @@ model Members {
 model Tickets {
   id String @id @default(uuid())
   name String
-  messages String?
   channelId String?
   createdAT DateTime @default(now())
   tickets GuildToMemberTickets[]
@@ -47,12 +47,13 @@ model Tickets {
 
 model GuildToMemberTickets {
   id String @id @default(uuid())
-  guild Guilds @relation(fields: [guildId], references: [guildId])
+  messages String?
   guildId String
-  member Members @relation(fields: [memberId], references: [id])
   memberId String
-  ticket Tickets @relation(fields: [ticketId], references: [id])
   ticketId String
+  guild Guilds @relation(fields: [guildId], references: [guildId])
+  member Members @relation(fields: [memberId], references: [id])
+  ticket Tickets @relation(fields: [ticketId], references: [id])
 }
 
 // https://www.prisma.io/docs/concepts/components/prisma-schema/relations

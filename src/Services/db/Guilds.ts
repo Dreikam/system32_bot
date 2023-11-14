@@ -1,62 +1,45 @@
-import * as fs from "fs";
-import { db } from "../db";
+import { db as prisma } from "@Services/db";
 
 export class GuildServices {
-  async getGuild(id: string) {
-    const getGuild = await db.guild.findUnique({
-      where: {
-        id,
-      },
+  async createGuild(data) {
+    return prisma.guilds.create({
+      data
     });
-
-    return getGuild;
   }
-  async createGuild(data: any) {
-    const newGuild = await db.guild.create({
-      data,
-    });
 
-    return newGuild;
-
-    // let getGuld = database.read();
-    // if (!getGuld[data.id]) {
-    //   getGuld[data.id] = data;
-    // }
-    // database.write(getGuld);
-    // return getGuld[data.id];
-  }
-  async editGuild(id, data: any) {
-    const updateGuild = await db.guild.update({
+  async updateGuild(guildId: string, data) {
+    return prisma.guilds.update({
       where: {
-        id,
+        guildId,
       },
       data,
     });
-
-    return updateGuild;
-
-    // let getGuld = database.read();
-    // if (!getGuld[data.id]) return false;
-
-    // getGuld[data.id] = {
-    //   ...getGuld[data.id],
-    //   ...data,
-    // };
-
-    // database.write(getGuld);
-    // return getGuld[data.id];
   }
-  async deleteGuild(id: string) {
-    const deleteUpdate = await db.guild.delete({
-      where: { id },
+
+  async deleteGuild(guildId: string) {
+    return prisma.guilds.delete({
+      where: {
+        guildId,
+      },
     });
+  }
 
-    return deleteUpdate
-
-    // const guild = database.find((guild) => guild.id == id);
-    // const index = database.indexOf(guild)
-    // if(guild.id == id) {
-    //   return database.splice(index, 1)
-    // }
+  async getGuild(guildId: string) {
+    return prisma.guilds.findFirst({
+      where: {
+        OR: [
+          {
+            guildId: {
+              equals: guildId
+            }
+          },
+          {
+            id: {
+              equals: guildId
+            }
+          }
+        ]
+      }
+    })
   }
 }

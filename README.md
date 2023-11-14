@@ -105,3 +105,11 @@ prisma.io
 
 npx prisma migrate dev
 ```
+
+```
+GET = Pedir informacion
+POST = ENVIAR informacion
+PUT = Actualizar toda la informacion
+PATCH = Actualizar algo espesifico
+DELETE = Eliminar informacion
+```

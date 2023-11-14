@@ -26,15 +26,23 @@ export class GuildController {
     })
   }
 
-  editGuild(req: Request, res: Response, next: NextFunction) {  
+  updateGuild(req: Request, res: Response, next: NextFunction) {  
     if(Object.keys(req.query).length == 0) return next(Boom.badRequest('No hay datos'))  
 
-    const editGuild = services.editGuild(req.params.id, req.query);
+    const editGuild = services.updateGuild(req.params.id, req.query);
+
+    res.json({
+      data: editGuild
+    })
   }
 
   deleteGuild(req: Request, res: Response, next: NextFunction) {   
     if(!req.params.guildId) return next(Boom.notFound("Debes colocar la ID"))
     
     const deleteGuild = services.deleteGuild(req.params.guildId)
+
+    res.json({
+      data: deleteGuild
+    })
   }
 }

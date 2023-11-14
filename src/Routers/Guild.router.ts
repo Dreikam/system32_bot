@@ -7,7 +7,7 @@ const controller = new GuildController()
 
 app.get('/:guildId', controller.getGuild)
 app.post('/', controller.createGuild)
-app.put('/:guildId', controller.editGuild)
+app.patch('/:guildId', controller.updateGuild)
 app.delete('/:guildId', controller.deleteGuild)
 
 export default app
