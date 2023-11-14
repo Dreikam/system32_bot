@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "start": "ts-node dist/app.js",
-    "dev": "ts-node-dev --respawn --transpile-only --poll ./src/api.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./src/api.ts",
     "build": "tsc",
     "test": "jest"
   },
