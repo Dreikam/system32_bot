@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { PremiumController } from "@Controllers/Premium"
+import { PremiumController } from "@Controllers/Premium.controller"
 
 const app = Router()
 const controller = new PremiumController()

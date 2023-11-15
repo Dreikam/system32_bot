@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { MembersController } from "@Controllers/Members"
+import { MembersController } from "@Controllers/Members.controller"
 
 const app = Router()
 const controller = new MembersController()

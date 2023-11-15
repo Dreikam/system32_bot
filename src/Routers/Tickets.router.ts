@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { TicketsController } from "@Controllers/Tickets"
+import { TicketsController } from "@Controllers/Tickets.controller"
 
 const app = Router()
 const controller = new TicketsController()

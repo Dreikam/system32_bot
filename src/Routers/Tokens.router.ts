@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { TokensController } from "@Controllers/Tokens"
+import { TokensController } from "@Controllers/Tokens.controller"
 
 const app = Router()
 const controller = new TokensController()
