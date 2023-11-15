@@ -8,9 +8,20 @@ export class TokensService {
   }
 
   async getToken(id: string) {
-    return prisma.tokens.findUnique({
+    return prisma.tokens.findFirst({
       where: {
-        id,
+        OR: [
+          {
+            id: {
+              equals: id
+            }
+          },
+          {
+            token: {
+              equals: id
+            }
+          }
+        ]
       },
     });
   }

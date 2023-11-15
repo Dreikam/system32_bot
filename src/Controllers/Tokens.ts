@@ -6,7 +6,7 @@ const services = new TokensService()
 export class TokensController {
 
   async getToken(req: Request, res: Response, next: NextFunction) {       
-    const getToken = await services.getToken(req.params.ticketId)
+    const getToken = await services.getToken(req.params.id)
 
     res.json({
       data: getToken
