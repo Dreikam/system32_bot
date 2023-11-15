@@ -1,14 +1,11 @@
 import type { Request, Response, NextFunction } from 'express'
 import { GuildServices } from "@Services/db/Guilds";
-import Boom from '@hapi/boom'
 
 const services = new GuildServices()
 
 export class GuildController {
 
-  async getGuild(req: Request, res: Response, next: NextFunction) {   
-    if(!req.params.guildId) return next(Boom.notFound("Debes colocar la ID"))
-    
+  async getGuild(req: Request, res: Response, next: NextFunction) {    
     const getGuildData = await services.getGuild(req.params.guildId)
 
     res.json({
@@ -16,9 +13,7 @@ export class GuildController {
     })
   }
 
-  async createGuild(req: Request, res: Response, next: NextFunction) {  
-    if(Object.keys(req.query).length == 0) return next(Boom.badRequest('No hay datos'))  
-
+  async createGuild(req: Request, res: Response, next: NextFunction) {
     const createGuild = await services.createGuild(req.query);
 
     res.json({
@@ -27,8 +22,6 @@ export class GuildController {
   }
 
   updateGuild(req: Request, res: Response, next: NextFunction) {  
-    if(Object.keys(req.query).length == 0) return next(Boom.badRequest('No hay datos'))  
-
     const editGuild = services.updateGuild(req.params.id, req.query);
 
     res.json({
@@ -36,9 +29,7 @@ export class GuildController {
     })
   }
 
-  deleteGuild(req: Request, res: Response, next: NextFunction) {   
-    if(!req.params.guildId) return next(Boom.notFound("Debes colocar la ID"))
-    
+  deleteGuild(req: Request, res: Response, next: NextFunction) {
     const deleteGuild = services.deleteGuild(req.params.guildId)
 
     res.json({

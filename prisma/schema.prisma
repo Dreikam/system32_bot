@@ -16,10 +16,11 @@ model Guilds {
   name String
   avatar String?
   memberCount Int?
-
   createdAT DateTime @default(now())
   tickets GuildToMemberTickets[]
   members Members[]
+  premium Premium[]
+
   @@index([guildId])
 }
 
@@ -31,6 +32,7 @@ model Members {
   name String
   avatar String?
   banner String?
+  premium Premium[]
   tickets GuildToMemberTickets[] // one-to-many
   createdAT DateTime @default(now())
 
@@ -56,4 +58,21 @@ model GuildToMemberTickets {
   ticket Tickets @relation(fields: [ticketId], references: [id])
 }
 
+model Premium {
+  id String @id @default(uuid())
+  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guildId String @unique
+  member Members @relation(fields: [memberId], references: [discordId])
+  memberId String @unique
+  token Tokens @relation(fields: [tokenId], references: [id])
+  tokenId String @unique
+  redeemedOn DateTime @default(now())
+}
+
+model Tokens {
+  id String @id @default(uuid())
+  token String @unique
+  premium Premium[]
+  createdAt DateTime @default(now())
+}
 // https://www.prisma.io/docs/concepts/components/prisma-schema/relations

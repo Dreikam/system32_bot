@@ -1,14 +1,11 @@
 import type { Request, Response, NextFunction } from 'express'
 import { MembersServices } from "@Services/db/Members";
-import Boom from '@hapi/boom'
 
 const services = new MembersServices()
 
 export class MembersController {
 
   async getMemberById(req: Request, res: Response, next: NextFunction) {   
-    if(!req.params.memberId) return next(Boom.notFound("Debes colocar la ID"))
-    
     const getMemberData = await services.getMemberById(req.params.memberId)
 
     res.json({
@@ -16,9 +13,7 @@ export class MembersController {
     })
   }
 
-  async getAllMembersByGuild(req: Request, res: Response, next: NextFunction) {   
-    if(!req.params.guildId) return next(Boom.notFound("Debes colocar la ID"))
-    
+  async getAllMembersByGuild(req: Request, res: Response, next: NextFunction) {
     const getMembersData = await services.getAllMembersByGuild(req.params.guildId)
 
     res.json({
@@ -42,8 +37,7 @@ export class MembersController {
     })
   }
 
-  async deleteMember(req: Request, res: Response, next: NextFunction) {   
-    if(!req.params.memberId) return next(Boom.notFound("Debes colocar la ID"))
+  async deleteMember(req: Request, res: Response, next: NextFunction) {
     
     const deleteMember = await services.deleteMember(req.params.memberId)
 
