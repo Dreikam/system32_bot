@@ -117,3 +117,10 @@ DELETE = Eliminar informacion
 ```
 npx prisma studio
 ```
+
+
+```
+npm i express-session passport passport-discord
+
+npm i @types/passport @types/passport-discord @types/express-session -D
+```
