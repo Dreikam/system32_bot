@@ -1,7 +1,6 @@
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import boom from "@hapi/boom";
 
 import { ErrorHandler, boomErrorHandlr, logErrors } from "./Middleware";
 import Guild from '@Routers/Guild.router'
