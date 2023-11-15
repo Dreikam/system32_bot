@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from 'express'
-import { PremiumServices } from "@Services/db/Premium";
+import { PremiumsServices } from "@Services/db/Premiums";
 
-const services = new PremiumServices()
+const services = new PremiumsServices()
 
-export class PremiumController {
+export class PremiumsController {
 
   async getPremium(req: Request, res: Response, next: NextFunction) {       
     const getPremium = await services.getPremium(req.params.id)

@@ -1,6 +1,6 @@
 import { db as prisma } from "@Services/db";
 
-export class PremiumServices {
+export class PremiumsServices {
   async createPremium(guildId: string, memberId: string, tokenId: string) {
     return prisma.premium.create({
       data: {
