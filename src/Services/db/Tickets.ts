@@ -16,32 +16,32 @@ export class TicketsServices {
   }
 
   async createGuildMemberTicket(guildId, member: {discordId: string, name: string}, ticketId, messages) {
-    return prisma.guildToMemberTickets.create({
-        data: {
-            guild: {
-                connect: {
-                    guildId,
-                }
-            },
-            member: {
-                connectOrCreate: {
-                    create: {
-                        discordId: member.discordId,
-                        name: member.name,
-                        guild: guildId
-                    },
-                    where: {
-                        discordId: member.discordId
-                    }
-                }
-            },
-            ticket: {
-                connect: {
-                    id: ticketId
-                }
-            },
-            messages,
-        }
-    })
+  //   return prisma.guildToMemberTickets.create({
+  //       data: {
+  //           guild: {
+  //               connect: {
+  //                   guildId,
+  //               }
+  //           },
+  //           member: {
+  //               connectOrCreate: {
+  //                   create: {
+  //                       discordId: member.discordId,
+  //                       name: member.name,
+  //                       guild: guildId
+  //                   },
+  //                   where: {
+  //                       discordId: member.discordId
+  //                   }
+  //               }
+  //           },
+  //           ticket: {
+  //               connect: {
+  //                   id: ticketId
+  //               }
+  //           },
+  //           messages,
+  //       }
+  //   })
   }
 }

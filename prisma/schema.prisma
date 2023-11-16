@@ -18,7 +18,7 @@ model Guilds {
   memberCount Int?
   createdAT DateTime @default(now())
   tickets GuildToMemberTickets[]
-  members Members[]
+  members MemberGuilds[]
   premium Premium[]
 
   @@index([guildId])
@@ -27,8 +27,6 @@ model Guilds {
 model Members {
   id String @id @default(uuid())
   discordId String @unique
-  guild Guilds @relation(fields: [guildId], references: [guildId])
-  guildId String @unique
   name String
   avatar String?
   banner String?
@@ -36,7 +34,17 @@ model Members {
   tickets GuildToMemberTickets[] // one-to-many
   createdAT DateTime @default(now())
 
-  @@index([discordId, guildId])
+  guilds MemberGuilds[]
+  @@index([discordId])
+}
+
+model MemberGuilds {
+  id String @id @default(uuid())
+  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guildId String
+  member Members @relation(fields: [memberId], references: [discordId])
+  memberId String
+  createdAt DateTime @default(now())
 }
 
 model Tickets {

@@ -8,19 +8,19 @@ export class MembersServices {
   }
 
   async getMemberById(memberId: string) {
-    return prisma.members.findUnique({
+    return prisma.members.findFirst({
       where: {
-        id: memberId,
+        discordId: memberId,
       },
     });
   }
 
   async getAllMembersByGuild(guildId: string) {
-    return prisma.members.findMany({
-      where: {
-        guildId,
-      },
-    });
+    // return prisma.members.findMany({
+    //   where: {
+    //     guildId,
+    //   },
+    // });
   }
 
   async updateMember(memberId: string, data) {
