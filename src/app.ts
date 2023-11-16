@@ -5,7 +5,7 @@ import session from 'express-session'
 import passport from "@Services/auth";
 import 'dotenv/config'
 
-import { ErrorHandler, boomErrorHandlr, logErrors } from "./Middleware";
+import { ErrorHandler, boomErrorHandlr, logErrors } from "@Middlewares/Error.middleware";
 import Guild from '@Routers/Guild.router';
 import Members from '@Routers/Members.router';
 import Tickets from '@Routers/Tickets.router';

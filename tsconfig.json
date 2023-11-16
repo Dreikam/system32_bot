@@ -21,6 +21,7 @@
       "@Controllers/*": ["Controllers/*"],
       "@Services/*": ["Services/*"],
       "@Utils/*": ["Utils/*"],
+      "@Middlewares/*": ["Middlewares/*"],
     }
   },
   "include": ["src/**/*.ts"],
