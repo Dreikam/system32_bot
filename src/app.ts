@@ -11,7 +11,7 @@ import Members from '@Routers/Members.router';
 import Tickets from '@Routers/Tickets.router';
 import Premiums from '@Routers/Premiums.router';
 import Tokens from '@Routers/Tokens.router';
-import Auth from '@Routers/auth.router';
+import Auth from '@Routers/Auth.router';
 
 const app = express();
 

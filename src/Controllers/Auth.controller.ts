@@ -1,4 +1,6 @@
 import type { Request, Response, NextFunction } from 'express'
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export class AuthController {
 
@@ -17,5 +19,26 @@ export class AuthController {
         return res.json({
          data: svs
         });
+    }
+
+    loginJwt(req: Request, res: Response, next: NextFunction) {
+        let user = {
+            id: "123",
+            name: "Dreikam",
+            password: "asdkasjdlasd",
+            random:"test"
+          }
+
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
+
+        return res.json({
+            token
+        })
+    }
+
+    test(req: Request, res: Response, next: NextFunction) {
+        return res.json({
+            data: "Test Ok!"
+        })
     }
 }
