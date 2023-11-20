@@ -31,7 +31,6 @@ model Members {
   avatar String?
   banner String?
   premium Premium[]
-  tickets GuildToMemberTickets[] // one-to-many
   createdAT DateTime @default(now())
 
   guilds MemberGuilds[]
@@ -44,6 +43,8 @@ model MemberGuilds {
   guildId String
   member Members @relation(fields: [memberId], references: [discordId])
   memberId String
+  ticketId String
+  ticket GuildToMemberTickets @relation(fields: [ticketId], references: [id])
   createdAt DateTime @default(now())
 }
 
@@ -62,7 +63,7 @@ model GuildToMemberTickets {
   memberId String
   ticketId String
   guild Guilds @relation(fields: [guildId], references: [guildId])
-  member Members @relation(fields: [memberId], references: [id])
+  member MemberGuilds[]
   ticket Tickets @relation(fields: [ticketId], references: [id])
 }
 

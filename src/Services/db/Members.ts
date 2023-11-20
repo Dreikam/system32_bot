@@ -16,11 +16,11 @@ export class MembersServices {
   }
 
   async getAllMembersByGuild(guildId: string) {
-    // return prisma.members.findMany({
-    //   where: {
-    //     guildId,
-    //   },
-    // });
+    return prisma.memberGuilds.findMany({
+      where: {
+        guildId,
+      },
+    });
   }
 
   async updateMember(memberId: string, data) {
