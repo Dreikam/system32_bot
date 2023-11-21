@@ -1,12 +1,12 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { TicketsController } from "@Controllers/Tickets.controller"
+import { TicketsController } from '@Controllers/Tickets.controller';
 
-const app = Router()
-const controller = new TicketsController()
+const app = Router();
+const controller = new TicketsController();
 
-app.get('/:ticketId', controller.getTicketById)
-app.post('/', controller.createTicket)
-app.post('/create', controller.createGuildMemberTicket)
+app.get('/:ticketId', controller.getTicketById);
+app.post('/', controller.createTicket);
+app.post('/create', controller.createGuildMemberTicket);
 
-export default app
+export default app;

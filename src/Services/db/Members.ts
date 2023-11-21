@@ -1,9 +1,9 @@
-import { db as prisma } from "@Services/db";
+import { db as prisma } from '@Services/db';
 
 export class MembersServices {
   async createMember(data) {
     return prisma.members.create({
-      data
+      data,
     });
   }
 

@@ -17,7 +17,7 @@ model Guilds {
   avatar String?
   memberCount Int?
   createdAT DateTime @default(now())
-  tickets GuildToMemberTickets[]
+  tickets Tickets?
   members MemberGuilds[]
   premium Premium[]
 
@@ -54,15 +54,15 @@ model Tickets {
   channelId String?
   createdAT DateTime @default(now())
   tickets GuildToMemberTickets[]
+  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guildId String @unique
 }
 
 model GuildToMemberTickets {
   id String @id @default(uuid())
   messages String?
-  guildId String
   memberId String
   ticketId String
-  guild Guilds @relation(fields: [guildId], references: [guildId])
   member MemberGuilds[]
   ticket Tickets @relation(fields: [ticketId], references: [id])
 }

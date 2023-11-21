@@ -1,16 +1,16 @@
-import passport from 'passport'
-import { discord } from './strategies/discord'
+import passport from 'passport';
+import { discord } from './strategies/discord';
 
-passport.serializeUser(function(user, done) {
-    done(null, user)
-})
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
 
-passport.deserializeUser(function(user, done){
-    done(null, user)
-})
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
-passport.use(discord)
+passport.use(discord);
 
 // https://www.passportjs.org/
 
-export default passport
+export default passport;

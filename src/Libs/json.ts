@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import path from "path";
+import * as fs from 'fs';
+import path from 'path';
 
 interface Iopts {
   folder?: string;
@@ -26,17 +26,17 @@ export class JsonServices {
     }
 
     if (!fs.existsSync(this.getFilePath())) {
-      fs.writeFileSync(this.getFilePath(), "{}");
+      fs.writeFileSync(this.getFilePath(), '{}');
     }
   }
 
   getFilePath() {
-    return path.join(this.path, this.folder || "", this.filename);
+    return path.join(this.path, this.folder || '', this.filename);
   }
 
   read() {
     const filePath = this.getFilePath();
-    const file = fs.readFileSync(filePath, "utf-8");
+    const file = fs.readFileSync(filePath, 'utf-8');
     return JSON.parse(file);
   }
 
@@ -52,10 +52,10 @@ export class JsonServices {
     // where = "user" or "users.123123"
 
     const filePath = this.getFilePath();
-    const file = fs.readFileSync(filePath, "utf-8");
+    const file = fs.readFileSync(filePath, 'utf-8');
     const json = JSON.parse(file);
 
-    const whereArray = opts.where.split(".");
+    const whereArray = opts.where.split('.');
     const whereLength = whereArray.length;
 
     let current = json;
@@ -68,8 +68,8 @@ export class JsonServices {
       }
     }
 
-    fs.writeFileSync(filePath, JSON.stringify(current, null, 2))
-    return true
+    fs.writeFileSync(filePath, JSON.stringify(current, null, 2));
+    return true;
   }
 
   push(opts: { where: string; data: object }) {
@@ -77,24 +77,24 @@ export class JsonServices {
     // where = "user" or "users.123123"
 
     const filePath = this.getFilePath();
-    const file = fs.readFileSync(filePath, "utf-8");
+    const file = fs.readFileSync(filePath, 'utf-8');
     const json = JSON.parse(file);
 
-    const whereArray = opts.where.split(".");
+    const whereArray = opts.where.split('.');
     const whereLength = whereArray.length;
 
     let current = json;
     for (let i = 0; i < whereLength; i++) {
       const key = whereArray[i];
       if (i === whereLength - 1) {
-        current[key].push(opts.data)
+        current[key].push(opts.data);
       } else {
         current = current[key];
       }
     }
 
-    fs.writeFileSync(filePath, JSON.stringify(current, null, 2))
-    return true
+    fs.writeFileSync(filePath, JSON.stringify(current, null, 2));
+    return true;
   }
 }
 

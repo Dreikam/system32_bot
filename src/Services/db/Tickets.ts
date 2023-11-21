@@ -1,4 +1,4 @@
-import { db as prisma } from "@Services/db";
+import { db as prisma } from '@Services/db';
 
 export class TicketsServices {
   async createTicket(data) {
@@ -15,32 +15,37 @@ export class TicketsServices {
     });
   }
 
-  async createGuildMemberTicket(guildId, member: {discordId: string, name: string}, ticketId, messages) {
+  async createGuildMemberTicket(
+    guildId,
+    member: { discordId: string; name: string },
+    ticketId,
+    messages
+  ) {
     return prisma.guildToMemberTickets.create({
-        data: {
-            guild: {
-                connect: {
-                    guildId,
-                }
+      data: {
+        guild: {
+          connect: {
+            guildId,
+          },
+        },
+        member: {
+          connectOrCreate: {
+            create: {
+              discordId: member.discordId,
+              name: member.name,
             },
-            member: {
-                connectOrCreate: {
-                    create: {
-                        discordId: member.discordId,
-                        name: member.name,
-                    },
-                    where: {
-                        discordId: member.discordId
-                    }
-                }
+            where: {
+              discordId: member.discordId,
             },
-            ticket: {
-                connect: {
-                    id: ticketId
-                }
-            },
-            messages,
-        }
-    })
+          },
+        },
+        ticket: {
+          connect: {
+            id: ticketId,
+          },
+        },
+        messages,
+      },
+    });
   }
 }

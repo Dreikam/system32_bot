@@ -1,39 +1,42 @@
-import type { Request, Response, NextFunction } from 'express'
-import { PremiumsServices } from "@Services/db/Premiums";
+import type { Request, Response, NextFunction } from 'express';
+import { PremiumsServices } from '@Services/db/Premiums';
 
-const services = new PremiumsServices()
+const services = new PremiumsServices();
 
 export class PremiumsController {
-
-  async getPremium(req: Request, res: Response, next: NextFunction) {       
-    const getPremium = await services.getPremium(req.params.id)
+  async getPremium(req: Request, res: Response, next: NextFunction) {
+    const getPremium = await services.getPremium(req.params.id);
 
     res.json({
-      data: getPremium
-    })
+      data: getPremium,
+    });
   }
 
   async createPremium(req: Request, res: Response, next: NextFunction) {
-    const createPremium = await services.createPremium(req.body.guildId, req.body.memberId, req.body.tokenId);
+    const createPremium = await services.createPremium(
+      req.body.guildId,
+      req.body.memberId,
+      req.body.tokenId
+    );
 
     res.json({
-      data: createPremium
-    })
+      data: createPremium,
+    });
   }
-  
+
   async updatePremium(req: Request, res: Response, next: NextFunction) {
     const updatePremium = await services.updatePremium(req.params.id, req.body);
 
     res.json({
-      data: updatePremium
-    })
+      data: updatePremium,
+    });
   }
-  
+
   async deletePremium(req: Request, res: Response, next: NextFunction) {
     const deletePremium = await services.deletePremium(req.params.id);
 
     res.json({
-      data: deletePremium
-    })
+      data: deletePremium,
+    });
   }
 }

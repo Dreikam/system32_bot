@@ -1,4 +1,4 @@
-import { db as prisma } from "@Services/db";
+import { db as prisma } from '@Services/db';
 
 export class PremiumsServices {
   async createPremium(guildId: string, memberId: string, tokenId: string) {
@@ -44,7 +44,7 @@ export class PremiumsServices {
     return prisma.premium.delete({
       where: {
         id: premiumId,
-      }
+      },
     });
   }
 }

@@ -118,9 +118,56 @@ DELETE = Eliminar informacion
 npx prisma studio
 ```
 
-
 ```
 npm i express-session passport passport-discord
 
 npm i @types/passport @types/passport-discord @types/express-session -D
+```
+
+---
+
+# Husky
+
+```
+npm i husky lint-staged -D
+```
+
+```
+touch .liststagedrc
+```
+
+```
+npm set-script prepare "husky install"
+```
+
+```
+npm run prepare
+```
+
+```
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+```
+npx eslint --init
+```
+
+```
+https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-nullish-coalescing.md
+```
+
+```
+npx husky add .husky/pre-push "npm run test"
+```
+
+---
+
+# Prettier
+
+```
+npx prettier . --write
+```
+
+```
+git rm --cache s./rc/Ro../
 ```

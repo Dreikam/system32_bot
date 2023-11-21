@@ -1,9 +1,9 @@
-import { db as prisma } from "@Services/db";
+import { db as prisma } from '@Services/db';
 
 export class GuildServices {
   async createGuild(data) {
     return prisma.guilds.create({
-      data
+      data,
     });
   }
 
@@ -30,16 +30,16 @@ export class GuildServices {
         OR: [
           {
             guildId: {
-              equals: guildId
-            }
+              equals: guildId,
+            },
           },
           {
             id: {
-              equals: guildId
-            }
-          }
-        ]
-      }
-    })
+              equals: guildId,
+            },
+          },
+        ],
+      },
+    });
   }
 }

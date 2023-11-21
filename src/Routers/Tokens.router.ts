@@ -1,13 +1,13 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { TokensController } from "@Controllers/Tokens.controller"
+import { TokensController } from '@Controllers/Tokens.controller';
 
-const app = Router()
-const controller = new TokensController()
+const app = Router();
+const controller = new TokensController();
 
-app.get('/:id', controller.getToken)
-app.post('/', controller.createToken)
-app.patch('/:id', controller.updateToken)
-app.delete('/:id', controller.deleteToken)
+app.get('/:id', controller.getToken);
+app.post('/', controller.createToken);
+app.patch('/:id', controller.updateToken);
+app.delete('/:id', controller.deleteToken);
 
-export default app
+export default app;

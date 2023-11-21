@@ -1,24 +1,23 @@
-import boom from '@hapi/boom'
-import jwt from 'jsonwebtoken'
-import 'dotenv/config'
+import boom from '@hapi/boom';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export const auth = (req, res, next) => {
-    if(req.isAuthenticated()) {
-        return next()
-    } else {
-        return next(boom.unauthorized("Tienes que estar autenticado"))
-    }
-}
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    return next(boom.unauthorized('Tienes que estar autenticado'));
+  }
+};
 
 export const verifyToken = (req, res, next) => {
-    const token = req.headers["x-access-token"];
-    
-    if(!token) return next(boom.unauthorized('Token no valido'));
+  const token = req.headers['x-access-token'];
 
-    jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  if (!token) return next(boom.unauthorized('Token no valido'));
 
-        if(err) return next(boom.unauthorized('Token no valido'))
-        
-        return next()
-    });
-}
+  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+    if (err) return next(boom.unauthorized('Token no valido'));
+
+    return next();
+  });
+};

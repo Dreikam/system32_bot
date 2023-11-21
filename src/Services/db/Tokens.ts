@@ -1,4 +1,4 @@
-import { db as prisma } from "@Services/db";
+import { db as prisma } from '@Services/db';
 
 export class TokensService {
   async createToken(data) {
@@ -13,15 +13,15 @@ export class TokensService {
         OR: [
           {
             id: {
-              equals: id
-            }
+              equals: id,
+            },
           },
           {
             token: {
-              equals: id
-            }
-          }
-        ]
+              equals: id,
+            },
+          },
+        ],
       },
     });
   }

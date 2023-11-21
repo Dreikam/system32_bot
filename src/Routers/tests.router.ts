@@ -1,14 +1,14 @@
-import { Router } from "express";
-import { db } from "@Services/db";
+import { Router } from 'express';
+import { db } from '@Services/db';
 
-const app = Router()
+const app = Router();
 
 app.get('/', async (req, res) => {
-    const members = await db.members.findMany()
+  const members = await db.members.findMany();
 
-    res.json({
-        data: members
-    })
-})
+  res.json({
+    data: members,
+  });
+});
 
-export default app
+export default app;
