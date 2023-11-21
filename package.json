@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "start": "ts-node dist/app.js",
+    "start": "ts-node dist/api.js",
     "dev": "ts-node-dev -r tsconfig-paths/register ./src/api.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "test": "jest",
     "lint": "eslint --fix",
     "prettier": "prettier . --write"
@@ -31,7 +31,8 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "1.10.0",
     "passport": "^0.6.0",
-    "passport-discord": "^0.1.4"
+    "passport-discord": "^0.1.4",
+    "tsc-alias": "^1.8.8"
   },
   "devDependencies": {
     "@types/cors": "2.8.15",

@@ -171,3 +171,26 @@ npx prettier . --write
 ```
 git rm --cache s./rc/Ro../
 ```
+
+---
+
+```
+npm i module-alias
+```
+
+```js
+// paths.ts
+import 'module-alias/register';
+import { addAliases } from 'module-alias';
+
+addAliases({
+  '@Libs': __dirname + '/libs',
+  '@Structure': __dirname + '/Structure',
+  '@Interfaces': __dirname + '/Structure/Interfaces',
+  '@Api': __dirname + '/libs/Api',
+  '@Config': __dirname + '/Structure/config',
+  '@MongoDB': __dirname + '/DataBase/MongoDB',
+  '@MySQL': __dirname + '/DataBase/sql',
+});
+
+```
