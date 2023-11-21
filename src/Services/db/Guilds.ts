@@ -1,7 +1,7 @@
 import { db as prisma } from '@Services/db';
 
 export class GuildServices {
-  async createGuild(data) {
+  async createGuild(data: any) {
     return prisma.guilds.create({
       data,
     });
