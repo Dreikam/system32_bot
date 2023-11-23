@@ -18,7 +18,6 @@ export class TicketsController {
     next: NextFunction
   ) {
     const createGuildMemberTicket = await services.createGuildMemberTicket(
-      req.body.guildId,
       req.body.member,
       req.body.ticketId,
       req.body.messages
