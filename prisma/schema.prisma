@@ -84,4 +84,6 @@ model Tokens {
   premium Premium[]
   createdAt DateTime @default(now())
 }
+
+// INSERT INT TABLA (asdasd, asdasd) VALUES (UUID(), 'asdasdasd')
 // https://www.prisma.io/docs/concepts/components/prisma-schema/relations

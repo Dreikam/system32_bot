@@ -20,16 +20,16 @@ export class GuildController {
     });
   }
 
-  updateGuild(req: Request, res: Response, next: NextFunction) {
-    const editGuild = services.updateGuild(req.params.id, req.query);
+  async updateGuild(req: Request, res: Response, next: NextFunction) {
+    const editGuild = await services.updateGuild(req.params.id, req.query);
 
     res.json({
       data: editGuild,
     });
   }
 
-  deleteGuild(req: Request, res: Response, next: NextFunction) {
-    const deleteGuild = services.deleteGuild(req.params.guildId);
+  async deleteGuild(req: Request, res: Response, next: NextFunction) {
+    const deleteGuild = await services.deleteGuild(req.params.guildId);
 
     res.json({
       data: deleteGuild,
