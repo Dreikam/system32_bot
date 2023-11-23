@@ -38,7 +38,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', (req, res) => res.status(200).json({ data: 'Hola mundo' }));
 app.use('/guilds', Guild);
 app.use('/members', Members);
 app.use('/tickets', Tickets);
