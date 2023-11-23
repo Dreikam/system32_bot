@@ -192,5 +192,4 @@ addAliases({
   '@MongoDB': __dirname + '/DataBase/MongoDB',
   '@MySQL': __dirname + '/DataBase/sql',
 });
-
 ```
