@@ -7,7 +7,7 @@ export class GuildController {
   async getGuild(req: Request, res: Response, next: NextFunction) {
     const getGuildData = await services.getGuild(req.params.guildId);
 
-    res.json({
+    return res.json({
       data: getGuildData,
     });
   }
@@ -15,7 +15,7 @@ export class GuildController {
   async createGuild(req: Request, res: Response, next: NextFunction) {
     const createGuild = await services.createGuild(req.query);
 
-    res.json({
+    return res.json({
       data: createGuild,
     });
   }
@@ -23,7 +23,7 @@ export class GuildController {
   async updateGuild(req: Request, res: Response, next: NextFunction) {
     const editGuild = await services.updateGuild(req.params.id, req.query);
 
-    res.json({
+    return res.json({
       data: editGuild,
     });
   }
@@ -31,7 +31,7 @@ export class GuildController {
   async deleteGuild(req: Request, res: Response, next: NextFunction) {
     const deleteGuild = await services.deleteGuild(req.params.guildId);
 
-    res.json({
+    return res.json({
       data: deleteGuild,
     });
   }

@@ -1,13 +1,13 @@
 import { db as prisma } from '@Services/db';
 
 export class TicketsServices {
-  async createTicket(data) {
+  createTicket(data) {
     return prisma.tickets.create({
       data,
     });
   }
 
-  async getTicketById(ticketId: string) {
+  getTicketById(ticketId: string) {
     return prisma.tickets.findUnique({
       where: {
         id: ticketId,
@@ -15,7 +15,7 @@ export class TicketsServices {
     });
   }
 
-  async createGuildMemberTicket(
+  createGuildMemberTicket(
     member: { discordId: string; name: string },
     ticketId,
     messages

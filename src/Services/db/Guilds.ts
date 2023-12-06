@@ -1,13 +1,13 @@
 import { db as prisma } from '@Services/db';
 
 export class GuildServices {
-  async createGuild(data: any) {
+  createGuild(data: any) {
     return prisma.guilds.create({
       data,
     });
   }
 
-  async updateGuild(guildId: string, data) {
+  updateGuild(guildId: string, data) {
     return prisma.guilds.update({
       where: {
         guildId,
@@ -16,7 +16,7 @@ export class GuildServices {
     });
   }
 
-  async deleteGuild(guildId: string) {
+  deleteGuild(guildId: string) {
     return prisma.guilds.delete({
       where: {
         guildId,
@@ -24,7 +24,7 @@ export class GuildServices {
     });
   }
 
-  async getGuild(guildId: string) {
+  getGuild(guildId: string) {
     return prisma.guilds.findFirst({
       where: {
         OR: [

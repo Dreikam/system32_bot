@@ -7,7 +7,7 @@ export class MembersController {
   async getMemberById(req: Request, res: Response, next: NextFunction) {
     const getMemberData = await services.getMemberById(req.params.memberId);
 
-    res.json({
+    return res.json({
       data: getMemberData,
     });
   }
@@ -17,7 +17,7 @@ export class MembersController {
       req.params.guildId
     );
 
-    res.json({
+    return res.json({
       data: getMembersData,
     });
   }
@@ -25,7 +25,7 @@ export class MembersController {
   async createMember(req: Request, res: Response, next: NextFunction) {
     const createMember = await services.createMember(req.query);
 
-    res.json({
+    return res.json({
       data: createMember,
     });
   }
@@ -36,7 +36,7 @@ export class MembersController {
       req.body
     );
 
-    res.json({
+    return res.json({
       data: updateMember,
     });
   }
@@ -44,7 +44,7 @@ export class MembersController {
   async deleteMember(req: Request, res: Response, next: NextFunction) {
     const deleteMember = await services.deleteMember(req.params.memberId);
 
-    res.json({
+    return res.json({
       data: deleteMember,
     });
   }

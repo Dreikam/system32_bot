@@ -1,13 +1,13 @@
 import { db as prisma } from '@Services/db';
 
 export class MembersServices {
-  async createMember(data) {
+  createMember(data) {
     return prisma.members.create({
       data,
     });
   }
 
-  async getMemberById(memberId: string) {
+  getMemberById(memberId: string) {
     return prisma.members.findFirst({
       where: {
         discordId: memberId,
@@ -15,7 +15,7 @@ export class MembersServices {
     });
   }
 
-  async getAllMembersByGuild(guildId: string) {
+  getAllMembersByGuild(guildId: string) {
     return prisma.memberGuilds.findMany({
       where: {
         guildId,
@@ -23,7 +23,7 @@ export class MembersServices {
     });
   }
 
-  async updateMember(memberId: string, data) {
+  updateMember(memberId: string, data) {
     return prisma.members.update({
       where: {
         id: memberId,
@@ -32,7 +32,7 @@ export class MembersServices {
     });
   }
 
-  async deleteMember(memberId: string) {
+  deleteMember(memberId: string) {
     return prisma.members.delete({
       where: {
         id: memberId,

@@ -1,13 +1,13 @@
 import { db as prisma } from '@Services/db';
 
 export class TokensService {
-  async createToken(data) {
+  createToken(data) {
     return prisma.tokens.create({
       data,
     });
   }
 
-  async getToken(id: string) {
+  getToken(id: string) {
     return prisma.tokens.findFirst({
       where: {
         OR: [
@@ -26,7 +26,7 @@ export class TokensService {
     });
   }
 
-  async updateToken(id: string, data) {
+  updateToken(id: string, data) {
     return prisma.tokens.update({
       where: {
         id,
@@ -35,7 +35,7 @@ export class TokensService {
     });
   }
 
-  async deleteToken(id: string) {
+  deleteToken(id: string) {
     return prisma.tokens.delete({
       where: {
         id,

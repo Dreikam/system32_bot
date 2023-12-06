@@ -1,7 +1,7 @@
 import { db as prisma } from '@Services/db';
 
 export class PremiumsServices {
-  async createPremium(guildId: string, memberId: string, tokenId: string) {
+  createPremium(guildId: string, memberId: string, tokenId: string) {
     return prisma.premium.create({
       data: {
         guild: {
@@ -23,7 +23,7 @@ export class PremiumsServices {
     });
   }
 
-  async getPremium(premiumId: string) {
+  getPremium(premiumId: string) {
     return prisma.premium.findFirst({
       where: {
         id: premiumId,
@@ -31,7 +31,7 @@ export class PremiumsServices {
     });
   }
 
-  async updatePremium(premiumId: string, data) {
+  updatePremium(premiumId: string, data) {
     return prisma.premium.update({
       where: {
         id: premiumId,
@@ -40,7 +40,7 @@ export class PremiumsServices {
     });
   }
 
-  async deletePremium(premiumId: string) {
+  deletePremium(premiumId: string) {
     return prisma.premium.delete({
       where: {
         id: premiumId,

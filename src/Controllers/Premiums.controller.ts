@@ -7,7 +7,7 @@ export class PremiumsController {
   async getPremium(req: Request, res: Response, next: NextFunction) {
     const getPremium = await services.getPremium(req.params.id);
 
-    res.json({
+    return res.json({
       data: getPremium,
     });
   }
@@ -19,7 +19,7 @@ export class PremiumsController {
       req.body.tokenId
     );
 
-    res.json({
+    return res.json({
       data: createPremium,
     });
   }
@@ -27,7 +27,7 @@ export class PremiumsController {
   async updatePremium(req: Request, res: Response, next: NextFunction) {
     const updatePremium = await services.updatePremium(req.params.id, req.body);
 
-    res.json({
+    return res.json({
       data: updatePremium,
     });
   }
@@ -35,7 +35,7 @@ export class PremiumsController {
   async deletePremium(req: Request, res: Response, next: NextFunction) {
     const deletePremium = await services.deletePremium(req.params.id);
 
-    res.json({
+    return res.json({
       data: deletePremium,
     });
   }

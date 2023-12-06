@@ -7,7 +7,7 @@ export class TicketsController {
   async getTicketById(req: Request, res: Response, next: NextFunction) {
     const getTicketData = await services.getTicketById(req.params.ticketId);
 
-    res.json({
+    return res.json({
       data: getTicketData,
     });
   }
@@ -23,7 +23,7 @@ export class TicketsController {
       req.body.messages
     );
 
-    res.json({
+    return res.json({
       data: createGuildMemberTicket,
     });
   }
@@ -31,7 +31,7 @@ export class TicketsController {
   async createTicket(req: Request, res: Response, next: NextFunction) {
     const createTicket = await services.createTicket(req.body);
 
-    res.json({
+    return res.json({
       data: createTicket,
     });
   }

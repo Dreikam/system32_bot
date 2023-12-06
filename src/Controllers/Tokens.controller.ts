@@ -7,7 +7,7 @@ export class TokensController {
   async getToken(req: Request, res: Response, next: NextFunction) {
     const getToken = await services.getToken(req.params.id);
 
-    res.json({
+    return res.json({
       data: getToken,
     });
   }
@@ -15,7 +15,7 @@ export class TokensController {
   async createToken(req: Request, res: Response, next: NextFunction) {
     const createToken = await services.createToken(req.body);
 
-    res.json({
+    return res.json({
       data: createToken,
     });
   }
@@ -23,7 +23,7 @@ export class TokensController {
   async updateToken(req: Request, res: Response, next: NextFunction) {
     const updateToken = await services.updateToken(req.params.id, req.body);
 
-    res.json({
+    return res.json({
       data: updateToken,
     });
   }
@@ -31,7 +31,7 @@ export class TokensController {
   async deleteToken(req: Request, res: Response, next: NextFunction) {
     const deleteToken = await services.deleteToken(req.params.id);
 
-    res.json({
+    return res.json({
       data: deleteToken,
     });
   }
