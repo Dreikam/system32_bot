@@ -1,7 +1,7 @@
 import { db as prisma } from '@Services/db';
 
 export class MembersServices {
-  createMember(data) {
+  createMember(data: any) {
     return prisma.members.create({
       data,
     });
@@ -23,7 +23,7 @@ export class MembersServices {
     });
   }
 
-  updateMember(memberId: string, data) {
+  updateMember(memberId: string, data: any) {
     return prisma.members.update({
       where: {
         id: memberId,

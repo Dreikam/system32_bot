@@ -7,7 +7,7 @@ export class GuildServices {
     });
   }
 
-  updateGuild(guildId: string, data) {
+  updateGuild(guildId: string, data: any) {
     return prisma.guilds.update({
       where: {
         guildId,

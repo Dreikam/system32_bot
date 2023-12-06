@@ -13,7 +13,7 @@ export class GuildController {
   }
 
   async createGuild(req: Request, res: Response, next: NextFunction) {
-    const createGuild = await services.createGuild(req.query);
+    const createGuild = await services.createGuild(req.body);
 
     return res.json({
       data: createGuild,
@@ -21,7 +21,7 @@ export class GuildController {
   }
 
   async updateGuild(req: Request, res: Response, next: NextFunction) {
-    const editGuild = await services.updateGuild(req.params.id, req.query);
+    const editGuild = await services.updateGuild(req.params.id, req.body);
 
     return res.json({
       data: editGuild,

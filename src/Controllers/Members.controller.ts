@@ -23,7 +23,7 @@ export class MembersController {
   }
 
   async createMember(req: Request, res: Response, next: NextFunction) {
-    const createMember = await services.createMember(req.query);
+    const createMember = await services.createMember(req.body);
 
     return res.json({
       data: createMember,

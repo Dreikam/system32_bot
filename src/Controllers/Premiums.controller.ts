@@ -13,11 +13,7 @@ export class PremiumsController {
   }
 
   async createPremium(req: Request, res: Response, next: NextFunction) {
-    const createPremium = await services.createPremium(
-      req.body.guildId,
-      req.body.memberId,
-      req.body.tokenId
-    );
+    const createPremium = await services.createPremium(req.body);
 
     return res.json({
       data: createPremium,

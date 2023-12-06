@@ -1,7 +1,8 @@
 import { db as prisma } from '@Services/db';
 
 export class PremiumsServices {
-  createPremium(guildId: string, memberId: string, tokenId: string) {
+  createPremium(data: any) {
+    const { guildId, memberId, tokenId } = data;
     return prisma.premium.create({
       data: {
         guild: {
@@ -31,7 +32,7 @@ export class PremiumsServices {
     });
   }
 
-  updatePremium(premiumId: string, data) {
+  updatePremium(premiumId: string, data: any) {
     return prisma.premium.update({
       where: {
         id: premiumId,

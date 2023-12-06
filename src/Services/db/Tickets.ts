@@ -1,7 +1,7 @@
 import { db as prisma } from '@Services/db';
 
 export class TicketsServices {
-  createTicket(data) {
+  createTicket(data: any) {
     return prisma.tickets.create({
       data,
     });
