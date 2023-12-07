@@ -36,6 +36,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/guilds', Guild);
