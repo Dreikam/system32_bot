@@ -1,7 +1,5 @@
 import app from './app';
 
 app.listen(3000, () => {
-  console.log('APP PRENDIDo');
+  console.log('Api En Servicio');
 });
-
-console.log('TODO PRENDIDO');
