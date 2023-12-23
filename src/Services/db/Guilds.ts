@@ -5,18 +5,18 @@ export class GuildServices {
     return prisma.guilds.findMany();
   }
 
-  getGuild(guildId: string) {
+  getGuild(id: string) {
     return prisma.guilds.findFirst({
       where: {
         OR: [
           {
             guildId: {
-              equals: guildId,
+              equals: id,
             },
           },
           {
             id: {
-              equals: guildId,
+              equals: id,
             },
           },
         ],
@@ -52,14 +52,20 @@ export class GuildServices {
     });
   }
 
-  updateGuild(guildId: string, data: any) {
-    const { name, avatar, memberCount, members } = data;
+  updateGuild(id: string, data: any) {
+    const { guildId, name, avatar, memberCount, members } = data;
     return prisma.guilds.update({
       where: {
-        guildId,
+        id: id,
+        OR: [
+          {
+            guildId: guildId,
+          },
+        ],
       },
       data: {
         name,
+        guildId,
         avatar,
         memberCount,
         members: {
