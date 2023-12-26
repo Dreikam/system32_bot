@@ -5,18 +5,18 @@ export class GuildServices {
     return prisma.guilds.findMany();
   }
 
-  getGuild(id: string) {
+  getGuild(guildId: string) {
     return prisma.guilds.findFirst({
       where: {
         OR: [
           {
             guildId: {
-              equals: id,
+              equals: guildId,
             },
           },
           {
             id: {
-              equals: id,
+              equals: guildId,
             },
           },
         ],
@@ -52,8 +52,33 @@ export class GuildServices {
     });
   }
 
+  getMemberOnRelation(guildId: string, discordId: string) {
+    return prisma.guilds.findFirst({
+      where: {
+        guildId: guildId,
+      },
+      select: {
+        members: {
+          where: {
+            memberId: discordId,
+          },
+        },
+      },
+    });
+  }
+
+  checkIfRelationExist(guildId: string, discordId: string) {
+    return prisma.memberGuilds.findFirst({
+      where: {
+        memberId: discordId,
+        guildId: guildId,
+      },
+    });
+  }
+
   updateGuild(id: string, data: any) {
-    const { guildId, name, avatar, memberCount, members } = data;
+    const { guildId, name, avatar } = data;
+
     return prisma.guilds.update({
       where: {
         id: id,
@@ -65,11 +90,27 @@ export class GuildServices {
       },
       data: {
         name,
-        guildId,
         avatar,
+      },
+    });
+  }
+
+  async addMember(id: string, data: any) {
+    const { guildId, memberCount, member } = data;
+
+    return prisma.guilds.update({
+      where: {
+        id,
+        OR: [
+          {
+            guildId: guildId,
+          },
+        ],
+      },
+      data: {
         memberCount,
         members: {
-          create: members.map((member) => ({
+          create: {
             member: {
               connectOrCreate: {
                 create: {
@@ -82,8 +123,20 @@ export class GuildServices {
                 },
               },
             },
-          })),
+          },
         },
+      },
+    });
+  }
+
+  async removeMember(id: string, data: any) {
+    const { guildId, discordId } = data;
+
+    const relation = await this.getMemberOnRelation(guildId, discordId);
+
+    return prisma.memberGuilds.delete({
+      where: {
+        id: relation.members[0].id,
       },
     });
   }

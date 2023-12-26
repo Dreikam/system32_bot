@@ -20,6 +20,8 @@ model Guilds {
   tickets Tickets?
   members MemberGuilds[]
   premium Premium?
+
+  @@index([guildId])
 }
 
 model Members {
@@ -31,13 +33,14 @@ model Members {
   createdAT DateTime @default(now())
 
   guilds MemberGuilds[]
+  @@index([discordId])
 }
 
 model MemberGuilds {
   id String @id @default(uuid())
   guild Guilds @relation(fields: [guildId], references: [guildId])
   guildId String
-  member Members @relation(fields: [memberId], references: [id])
+  member Members @relation(fields: [memberId], references: [discordId])
   memberId String
   ticketId String?
   ticket GuildToMemberTickets? @relation(fields: [ticketId], references: [id])
@@ -67,7 +70,7 @@ model Premium {
   id String @id @default(uuid())
   guild Guilds @relation(fields: [guildId], references: [guildId])
   guildId String @unique
-  member Members @relation(fields: [memberId], references: [id])
+  member Members @relation(fields: [memberId], references: [discordId])
   memberId String @unique
   token Tokens @relation(fields: [tokenId], references: [id])
   tokenId String @unique
