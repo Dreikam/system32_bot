@@ -52,22 +52,7 @@ export class GuildServices {
     });
   }
 
-  getMemberOnRelation(guildId: string, discordId: string) {
-    return prisma.guilds.findFirst({
-      where: {
-        guildId: guildId,
-      },
-      select: {
-        members: {
-          where: {
-            memberId: discordId,
-          },
-        },
-      },
-    });
-  }
-
-  checkIfRelationExist(guildId: string, discordId: string) {
+  getRelation(guildId: string, discordId: string) {
     return prisma.memberGuilds.findFirst({
       where: {
         memberId: discordId,
@@ -129,14 +114,26 @@ export class GuildServices {
     });
   }
 
-  async removeMember(id: string, data: any) {
-    const { guildId, discordId } = data;
+  async removeMember(id: string, data: any, relationId: string) {
+    const { guildId, memberCount, discordId } = data;
 
-    const relation = await this.getMemberOnRelation(guildId, discordId);
+    prisma.guilds.update({
+      where: {
+        id,
+        OR: [
+          {
+            guildId: guildId,
+          },
+        ],
+      },
+      data: {
+        memberCount,
+      },
+    });
 
     return prisma.memberGuilds.delete({
       where: {
-        id: relation.members[0].id,
+        id: relationId,
       },
     });
   }

@@ -77,7 +77,7 @@ export class GuildController {
         boom.notFound('No existe el servidor que intentas actualizar')
       );
 
-    const existMember = await services.checkIfRelationExist(
+    const existMember = await services.getRelation(
       req.body.guildId,
       req.body.discordId
     );
@@ -88,6 +88,7 @@ export class GuildController {
           'El miembro que intentas añadir ya existe en el servidor'
         )
       );
+
     try {
       const addedMembers = await services.addMember(req.params.id, req.body);
 
@@ -111,7 +112,7 @@ export class GuildController {
         boom.notFound('No existe el servidor que intentas actualizar')
       );
 
-    const existMember = await services.checkIfRelationExist(
+    const existMember = await services.getRelation(
       req.body.guildId,
       req.body.discordId
     );
@@ -121,7 +122,8 @@ export class GuildController {
     try {
       const removedMember = await services.removeMember(
         req.params.id,
-        req.body
+        req.body,
+        existMember.id
       );
 
       return res.json({
