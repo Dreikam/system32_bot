@@ -57,6 +57,10 @@ npx husky add .husky/pre-commit "npx lint-staged"
         '**/*': "prettier --write --ignore-unknown"
     }
 }
+
+{
+  "*.{ts}": ["prettier . --write", "git add"]
+}
 ```
 
 ```
