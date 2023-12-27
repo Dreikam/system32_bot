@@ -15,7 +15,6 @@ model Guilds {
   guildId String @unique
   name String
   avatar String?
-  memberCount Int?
   createdAT DateTime @default(now())
   tickets Tickets?
   members MemberGuilds[]
@@ -29,6 +28,7 @@ model Members {
   discordId String @unique
   name String
   avatar String?
+  bot Boolean @default(false)
   premium Premium[]
   createdAT DateTime @default(now())
 

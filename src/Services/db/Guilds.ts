@@ -25,13 +25,13 @@ export class GuildServices {
   }
 
   createGuild(data) {
-    const { guildId, name, avatar, memberCount, members } = data;
+    const { guildId, name, avatar, members } = data;
+
     return prisma.guilds.create({
       data: {
         guildId,
         name,
         avatar,
-        memberCount,
         members: {
           create: members.map((member) => ({
             member: {
@@ -40,6 +40,7 @@ export class GuildServices {
                   name: member.name,
                   discordId: member.discordId,
                   avatar: member.avatar,
+                  bot: member.bot,
                 },
                 where: {
                   discordId: member.discordId,
@@ -55,8 +56,16 @@ export class GuildServices {
   getRelation(guildId: string, discordId: string) {
     return prisma.memberGuilds.findFirst({
       where: {
-        memberId: discordId,
-        guildId: guildId,
+        memberId: {
+          equals: discordId,
+        },
+        AND: [
+          {
+            guildId: {
+              equals: guildId,
+            },
+          },
+        ],
       },
     });
   }
@@ -81,19 +90,20 @@ export class GuildServices {
   }
 
   async addMember(id: string, data: any) {
-    const { guildId, memberCount, member } = data;
+    const { guildId, member } = data;
+
+    console.log(data);
 
     return prisma.guilds.update({
       where: {
-        id,
+        id: id,
         OR: [
           {
-            guildId: guildId,
+            guildId,
           },
         ],
       },
       data: {
-        memberCount,
         members: {
           create: {
             member: {
@@ -102,6 +112,7 @@ export class GuildServices {
                   name: member.name,
                   discordId: member.discordId,
                   avatar: member.avatar,
+                  bot: member.bot,
                 },
                 where: {
                   discordId: member.discordId,
@@ -114,23 +125,7 @@ export class GuildServices {
     });
   }
 
-  async removeMember(id: string, data: any, relationId: string) {
-    const { guildId, memberCount, discordId } = data;
-
-    prisma.guilds.update({
-      where: {
-        id,
-        OR: [
-          {
-            guildId: guildId,
-          },
-        ],
-      },
-      data: {
-        memberCount,
-      },
-    });
-
+  async removeMember(relationId: string) {
     return prisma.memberGuilds.delete({
       where: {
         id: relationId,
@@ -138,8 +133,13 @@ export class GuildServices {
     });
   }
 
-  deleteGuild(guildId: string) {
-    return prisma.guilds.delete({
+  async deleteGuild(guildId: string) {
+    await prisma.memberGuilds.deleteMany({
+      where: {
+        guildId,
+      },
+    });
+    return await prisma.guilds.delete({
       where: {
         guildId,
       },

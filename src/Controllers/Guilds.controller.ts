@@ -78,8 +78,8 @@ export class GuildController {
       );
 
     const existMember = await services.getRelation(
-      req.body.guildId,
-      req.body.discordId
+      req.params.id,
+      req.body.member.discordId
     );
 
     if (existMember)
@@ -116,15 +116,12 @@ export class GuildController {
       req.body.guildId,
       req.body.discordId
     );
+    console.log(existMember);
 
     if (!existMember)
       return next(boom.notFound('El miembro no existe en ese servidor'));
     try {
-      const removedMember = await services.removeMember(
-        req.params.id,
-        req.body,
-        existMember.id
-      );
+      const removedMember = await services.removeMember(existMember.id);
 
       return res.json({
         message: 'Miembro removido con exito',
