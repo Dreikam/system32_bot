@@ -5,9 +5,15 @@ import { GuildController } from '@Controllers/Guilds.controller';
 const app = Router();
 const controller = new GuildController();
 
-app.get('/:guildId', controller.getGuild);
+app.get('/', controller.getGuilds);
+app.get('/:id', controller.getGuild);
+
 app.post('/', controller.createGuild);
-app.patch('/:guildId', controller.updateGuild);
-app.delete('/:guildId', controller.deleteGuild);
+app.post('/:id/members/add', controller.addMember);
+
+app.patch('/:id', controller.updateGuild);
+
+app.delete('/:id', controller.deleteGuild);
+app.delete('/:id/members/remove', controller.removeMember);
 
 export default app;

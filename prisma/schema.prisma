@@ -15,11 +15,10 @@ model Guilds {
   guildId String @unique
   name String
   avatar String?
-  memberCount Int?
   createdAT DateTime @default(now())
   tickets Tickets?
   members MemberGuilds[]
-  premium Premium[]
+  premium Premium?
 
   @@index([guildId])
 }
@@ -30,6 +29,7 @@ model Members {
   name String
   avatar String?
   banner String?
+  bot Boolean @default(false)
   premium Premium[]
   createdAT DateTime @default(now())
 
@@ -43,8 +43,8 @@ model MemberGuilds {
   guildId String
   member Members @relation(fields: [memberId], references: [discordId])
   memberId String
-  ticketId String
-  ticket GuildToMemberTickets @relation(fields: [ticketId], references: [id])
+  ticketId String?
+  ticket GuildToMemberTickets? @relation(fields: [ticketId], references: [id])
   createdAt DateTime @default(now())
 }
 

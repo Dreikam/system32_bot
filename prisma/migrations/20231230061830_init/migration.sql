@@ -4,7 +4,6 @@ CREATE TABLE "Guilds" (
     "guildId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "avatar" TEXT,
-    "memberCount" INTEGER,
     "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -15,6 +14,7 @@ CREATE TABLE "Members" (
     "name" TEXT NOT NULL,
     "avatar" TEXT,
     "banner" TEXT,
+    "bot" BOOLEAN NOT NULL DEFAULT false,
     "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -23,9 +23,11 @@ CREATE TABLE "MemberGuilds" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "guildId" TEXT NOT NULL,
     "memberId" TEXT NOT NULL,
+    "ticketId" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "MemberGuilds_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guilds" ("guildId") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "MemberGuilds_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Members" ("discordId") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "MemberGuilds_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Members" ("discordId") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "MemberGuilds_ticketId_fkey" FOREIGN KEY ("ticketId") REFERENCES "GuildToMemberTickets" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -33,18 +35,17 @@ CREATE TABLE "Tickets" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "channelId" TEXT,
-    "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "guildId" TEXT NOT NULL,
+    CONSTRAINT "Tickets_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guilds" ("guildId") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "GuildToMemberTickets" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "messages" TEXT,
-    "guildId" TEXT NOT NULL,
     "memberId" TEXT NOT NULL,
     "ticketId" TEXT NOT NULL,
-    CONSTRAINT "GuildToMemberTickets_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guilds" ("guildId") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "GuildToMemberTickets_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Members" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "GuildToMemberTickets_ticketId_fkey" FOREIGN KEY ("ticketId") REFERENCES "Tickets" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -78,6 +79,9 @@ CREATE UNIQUE INDEX "Members_discordId_key" ON "Members"("discordId");
 
 -- CreateIndex
 CREATE INDEX "Members_discordId_idx" ON "Members"("discordId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Tickets_guildId_key" ON "Tickets"("guildId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Premium_guildId_key" ON "Premium"("guildId");
