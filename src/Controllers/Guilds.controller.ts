@@ -32,9 +32,8 @@ export class GuildController {
   }
 
   async createGuild(req: Request, res: Response, next: NextFunction) {
-    const exist = await services.getGuild(req.body.guildId);
-
-    if (exist) return res.json('Ya existe');
+    const guild = await services.getGuild(req.body.guildId);
+    if (guild) return res.json('Ya existe');
 
     try {
       const createGuild = await services.createGuild(req.body);
@@ -50,9 +49,9 @@ export class GuildController {
   }
 
   async updateGuild(req: Request, res: Response, next: NextFunction) {
-    const exist = await services.getGuild(req.params.id);
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('Servidor no encontrado'));
 
-    if (!exist) return next(boom.notFound('Servidor no encontrado'));
     try {
       const editGuild = await services.updateGuild(req.body.guildId, req.body);
 
@@ -71,6 +70,10 @@ export class GuildController {
       return next(
         boom.notFound('No has ingresado el ID del miembro o servidor')
       );
+
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
     const exist = await services.getRelation(
       req.body.guildId,
       req.body.member.discordId
@@ -92,6 +95,9 @@ export class GuildController {
   }
 
   async deleteGuild(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
     try {
       const deleteGuild = await services.deleteGuild(req.params.id);
 
@@ -111,6 +117,9 @@ export class GuildController {
         boom.notFound('No has ingresado el ID del miembro o servidor')
       );
 
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
     const exist = await services.getRelation(
       req.body.guildId,
       req.body.discordId
@@ -124,11 +133,11 @@ export class GuildController {
       );
 
     try {
-      const deleteGuild = await services.removeMember(exist.id);
+      const { member } = await services.removeMember(exist.id);
 
       return res.json({
         message: 'Miembro eliminado con exito',
-        data: deleteGuild,
+        data: member,
       });
     } catch (error) {
       console.log(error);
