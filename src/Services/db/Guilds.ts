@@ -1,4 +1,5 @@
 import { db as prisma } from '@Services/db';
+import { IGuildCreate, IGuildUpdate } from '@Interfaces/Guilds.interface';
 
 export class GuildServices {
   getGuilds() {
@@ -41,7 +42,7 @@ export class GuildServices {
     });
   }
 
-  createGuild(data) {
+  createGuild(data: IGuildCreate) {
     const { guildId, name, avatar, members } = data;
 
     return prisma.guilds.create({
@@ -70,7 +71,7 @@ export class GuildServices {
     });
   }
 
-  updateGuild(guildId: string, data: any) {
+  updateGuild(guildId: string, data: IGuildUpdate) {
     const { name, avatar } = data;
 
     return prisma.guilds.update({
@@ -84,7 +85,7 @@ export class GuildServices {
     });
   }
 
-  async addMember(data: any) {
+  async addMember(data: IGuildUpdate) {
     const { guildId, member } = data;
 
     return prisma.guilds.update({
