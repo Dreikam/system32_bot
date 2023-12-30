@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { GuildServices } from '@Services/db/Guilds';
 import boom from '@hapi/boom';
+import { IGuildCreate, IGuildUpdate } from '@Interfaces/Guilds.interface';
 
 const services = new GuildServices();
 
@@ -36,7 +37,7 @@ export class GuildController {
     if (guild) return res.json('Ya existe');
 
     try {
-      const createGuild = await services.createGuild(req.body);
+      const createGuild = await services.createGuild(req.body as IGuildCreate);
 
       return res.json({
         message: 'Servidor creado con exito',
@@ -53,7 +54,10 @@ export class GuildController {
     if (!guild) return next(boom.notFound('Servidor no encontrado'));
 
     try {
-      const editGuild = await services.updateGuild(req.body.guildId, req.body);
+      const editGuild = await services.updateGuild(
+        req.body.guildId,
+        req.body as IGuildUpdate
+      );
 
       return res.json({
         message: 'Servidor actualizado con exito',
@@ -82,7 +86,7 @@ export class GuildController {
     if (exist)
       return next(boom.forbidden('El miembro ya existe en este servidor'));
     try {
-      const addedMember = await services.addMember(req.body);
+      const addedMember = await services.addMember(req.body as IGuildUpdate);
 
       return res.send({
         message: 'Miembro actualizado con exito',
