@@ -1,41 +1,72 @@
 import { db as prisma } from '@Services/db';
+import { IMembers } from '@Interfaces/Members.interace';
 
 export class MembersServices {
-  createMember(data: any) {
-    return prisma.members.create({
-      data,
-    });
-  }
-
-  getMemberById(memberId: string) {
+  getMemberById(discordId: string) {
     return prisma.members.findFirst({
       where: {
-        discordId: memberId,
+        OR: [
+          {
+            discordId: {
+              equals: discordId,
+            },
+          },
+          {
+            id: {
+              equals: discordId,
+            },
+          },
+        ],
       },
     });
   }
 
-  getAllMembersByGuild(guildId: string) {
+  getAllMemberGuilds(discordId: string) {
     return prisma.memberGuilds.findMany({
       where: {
-        guildId,
+        memberId: {
+          equals: discordId,
+        },
+      },
+      include: {
+        guild: true,
       },
     });
   }
 
-  updateMember(memberId: string, data: any) {
+  createMember(data: IMembers) {
+    const { discordId, name, avatar, banner, bot } = data;
+    return prisma.members.create({
+      data: {
+        discordId,
+        name,
+        avatar,
+        banner,
+        bot,
+      },
+    });
+  }
+
+  updateMember(discordId: string, data: IMembers) {
+    const { name, avatar, banner, bot } = data;
+
     return prisma.members.update({
       where: {
-        id: memberId,
+        discordId: discordId,
       },
-      data,
+      data: {
+        name,
+        avatar,
+        banner,
+        bot,
+      },
     });
   }
 
-  deleteMember(memberId: string) {
+  deleteMember(discordId: string) {
     return prisma.members.delete({
       where: {
-        id: memberId,
+        discordId: discordId,
       },
     });
   }

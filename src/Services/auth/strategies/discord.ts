@@ -28,6 +28,8 @@ export const discord = new Strategy(
         discordId: profile.id,
         name: profile.username,
         avatar: profile.avatar,
+        banner: profile.banner,
+        bot: false,
       });
 
       return done(null, user);
