@@ -19,6 +19,7 @@ model Guilds {
   tickets Tickets?
   members MemberGuilds[]
   premium Premium?
+  channels GuildChannels[]
 
   @@index([guildId])
 }
@@ -46,6 +47,17 @@ model MemberGuilds {
   ticketId String?
   ticket GuildToMemberTickets? @relation(fields: [ticketId], references: [id])
   createdAt DateTime @default(now())
+}
+
+model GuildChannels {
+  id String @id @default(uuid())
+  name String
+  channelId String @unique
+  type Int
+  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guildId String
+
+  @@index([channelId])
 }
 
 model Tickets {

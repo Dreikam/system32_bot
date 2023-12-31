@@ -43,7 +43,7 @@ export class GuildServices {
   }
 
   createGuild(data: IGuildCreate) {
-    const { guildId, name, avatar, members } = data;
+    const { guildId, name, avatar, members, channels } = data;
 
     return prisma.guilds.create({
       data: {
@@ -65,6 +65,13 @@ export class GuildServices {
                 },
               },
             },
+          })),
+        },
+        channels: {
+          create: channels.map((channel) => ({
+            name: channel.name,
+            channelId: channel.channelId,
+            type: channel.type,
           })),
         },
       },
