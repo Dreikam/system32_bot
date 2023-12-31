@@ -8,6 +8,7 @@ import {
   removeMember,
 } from '@Utils/Schemas/Guilds.schema';
 import { channelCreate, channelUpdate } from '@Utils/Schemas/Channels.schema';
+import { configId, guildConfig } from '@Utils/Schemas/GuildConfigs.schema';
 
 const app = Router();
 const controller = new GuildController();
@@ -47,5 +48,19 @@ app.patch(
   controller.updateChannel
 );
 app.delete('/:id/channels/:channelId', controller.deleteChannel);
+
+//Guild Config
+app.get('/:id/config', controller.getConfig);
+app.post(
+  '/:id/config',
+  validatorHandler(guildConfig, 'body'),
+  controller.createConfig
+);
+app.patch(
+  '/:id/config/:configId',
+  validatorHandler(guildConfig, 'body'),
+  controller.updateConfig
+);
+app.delete('/:id/config/:configId', controller.deleteConfig);
 
 export default app;
