@@ -154,6 +154,9 @@ export class GuildController {
 
   //Channels
   async getGuildChannels(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
     try {
       const channels = await channelServices.getGuildChannels(req.params.id);
 
@@ -167,6 +170,9 @@ export class GuildController {
   }
 
   async createChannel(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
     const existChannel = await channelServices.getChannelById(
       req.body.channelId
     );
@@ -190,6 +196,9 @@ export class GuildController {
   }
 
   async updateChannel(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
     const existChannel = await channelServices.getChannelById(
       req.body.channelId
     );
