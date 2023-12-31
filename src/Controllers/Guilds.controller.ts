@@ -1,12 +1,14 @@
 import type { Request, Response, NextFunction } from 'express';
 import { GuildServices } from '@Services/db/Guilds';
 import { ChannelsServices } from '@Services/db/Channels';
+import { GuildConfigsServices } from '@Services/db/GuildConfig';
 import boom from '@hapi/boom';
 import { IGuildCreate, IGuildUpdate } from '@Interfaces/Guilds.interface';
 import { IChannels, IChannelsUpdate } from '@Interfaces/Channels.interface';
 
 const services = new GuildServices();
 const channelServices = new ChannelsServices();
+const configServices = new GuildConfigsServices();
 
 export class GuildController {
   async getGuild(req: Request, res: Response, next: NextFunction) {
@@ -91,7 +93,7 @@ export class GuildController {
     try {
       const addedMember = await services.addMember(req.body as IGuildUpdate);
 
-      return res.send({
+      return res.json({
         message: 'Miembro actualizado con exito',
         data: addedMember,
       });
@@ -243,6 +245,97 @@ export class GuildController {
     } catch (error) {
       console.log(error);
       return next(boom.internal('Hubo un error eliminando el canal'));
+    }
+  }
+
+  //Guild Config
+  async getConfig(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
+    try {
+      const config = await configServices.getConfig(req.params.id);
+
+      return res.json({
+        data: config,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error obteniendo los datos'));
+    }
+  }
+
+  async createConfig(req: Request, res: Response, next: NextFunction) {
+    if (Object.keys(req.body).length === 0)
+      return next(boom.badData('No has ingresado datos'));
+
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
+    const exist = await configServices.getConfig(req.params.id);
+    if (exist)
+      return next(boom.forbidden('El servidor ya tiene una configuracion'));
+
+    try {
+      const createdConfig = await configServices.createConfig(
+        req.params.id,
+        req.body
+      );
+      return res.json({
+        message: 'Configuracion guardada con exito',
+        data: createdConfig.config,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error creando la configuracion'));
+    }
+  }
+
+  async updateConfig(req: Request, res: Response, next: NextFunction) {
+    if (Object.keys(req.body).length === 0)
+      return next(boom.badData('No has ingresado datos'));
+
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
+    const exist = await configServices.getConfig(req.params.id);
+    if (!exist)
+      return next(boom.forbidden('El servidor no tiene una configuracion'));
+
+    try {
+      const updatedConfig = await configServices.updateConfig(
+        req.params.configId,
+        req.body
+      );
+      return res.json({
+        message: 'Configuracion actualizada con exito',
+        data: updatedConfig,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error actualizando la configuracion'));
+    }
+  }
+
+  async deleteConfig(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('El servidor no existe'));
+
+    const exist = await configServices.getConfig(req.params.id);
+    if (!exist)
+      return next(boom.forbidden('El servidor no tiene una configuracion'));
+
+    try {
+      const deletedConfig = await configServices.deleteConfig(
+        req.params.configId
+      );
+      return res.json({
+        message: 'Configuracion eliminada con exito',
+        data: deletedConfig,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error eliminando la configuracion'));
     }
   }
 }
