@@ -65,12 +65,12 @@ model GuildConfig {
   id String @id @default(uuid())
   guild Guilds @relation(fields: [guildId], references: [guildId])
   guildId String @unique
-  logsChannel String
-  modRoles String
-  ticketChannel String
-  ticketSection String
-  announcementsChannel String
-  welcomeChannel String
+  logsChannel String?
+  modRoles String?
+  ticketChannel String?
+  ticketSection String?
+  announcementsChannel String?
+  welcomeChannel String?
 
   @@index([id])
 }

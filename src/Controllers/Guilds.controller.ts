@@ -266,6 +266,9 @@ export class GuildController {
   }
 
   async createConfig(req: Request, res: Response, next: NextFunction) {
+    if (Object.keys(req.body).length === 0)
+      return next(boom.badData('No has ingresado datos'));
+
     const guild = await services.getGuild(req.params.id);
     if (!guild) return next(boom.notFound('El servidor no existe'));
 
@@ -289,6 +292,9 @@ export class GuildController {
   }
 
   async updateConfig(req: Request, res: Response, next: NextFunction) {
+    if (Object.keys(req.body).length === 0)
+      return next(boom.badData('No has ingresado datos'));
+
     const guild = await services.getGuild(req.params.id);
     if (!guild) return next(boom.notFound('El servidor no existe'));
 
