@@ -1,9 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
 import { GuildServices } from '@Services/db/Guilds';
+import { ChannelsServices } from '@Services/db/Channels';
 import boom from '@hapi/boom';
 import { IGuildCreate, IGuildUpdate } from '@Interfaces/Guilds.interface';
+import { IChannels, IChannelsUpdate } from '@Interfaces/Channels.interface';
 
 const services = new GuildServices();
+const channelServices = new ChannelsServices();
 
 export class GuildController {
   async getGuild(req: Request, res: Response, next: NextFunction) {
@@ -146,6 +149,100 @@ export class GuildController {
     } catch (error) {
       console.log(error);
       return next(boom.internal('Hubo un error removiendo al miembro'));
+    }
+  }
+
+  //Channels
+  async getGuildChannels(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
+    try {
+      const channels = await channelServices.getGuildChannels(req.params.id);
+
+      return res.json({
+        data: channels,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error obteniendo los datos'));
+    }
+  }
+
+  async createChannel(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
+    const existChannel = await channelServices.getChannelById(
+      req.body.channelId
+    );
+    if (existChannel)
+      return next(boom.forbidden('El canal ya existe en este servidor'));
+
+    try {
+      const createdChannel = await channelServices.createChannel(
+        req.params.id,
+        req.body as IChannels
+      );
+
+      return res.json({
+        message: 'Canal creado con exito',
+        data: createdChannel,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error creando el canal'));
+    }
+  }
+
+  async updateChannel(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
+    const existChannel = await channelServices.getChannelById(
+      req.body.channelId
+    );
+    if (!existChannel)
+      return next(boom.notFound('El canal no existe en este servidor'));
+
+    try {
+      const updatedChannel = await channelServices.updateChannel(
+        req.params.id,
+        req.body as IChannelsUpdate
+      );
+
+      return res.json({
+        message: 'Canal actualizado con exito',
+        data: updatedChannel,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error actualizando el canal'));
+    }
+  }
+
+  async deleteChannel(req: Request, res: Response, next: NextFunction) {
+    const guild = await services.getGuild(req.params.id);
+    if (!guild) return next(boom.notFound('No existe el servidor'));
+
+    const existChannel = await channelServices.getChannelById(
+      req.body.channelId
+    );
+    if (!existChannel)
+      return next(boom.notFound('El canal no existe en este servidor'));
+
+    try {
+      const deletedChannel = await channelServices.deleteChannel(
+        req.params.channelId
+      );
+
+      return res.json({
+        message: 'Canal eliminado con exito',
+        data: deletedChannel,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error eliminando el canal'));
     }
   }
 }
