@@ -42,6 +42,21 @@ export class GuildServices {
     });
   }
 
+  getAllGuildMembers(guildId: string) {
+    return prisma.guilds.findMany({
+      where: {
+        guildId,
+      },
+      include: {
+        members: {
+          select: {
+            member: true,
+          },
+        },
+      },
+    });
+  }
+
   createGuild(data: IGuildCreate) {
     const { guildId, name, avatar, members, channels } = data;
 
