@@ -17,7 +17,7 @@ import Tickets from '@Routers/Tickets.router';
 import Premiums from '@Routers/Premiums.router';
 import Tokens from '@Routers/Tokens.router';
 import Auth from '@Routers/auth.router';
-import Test from '@Routers/tests.router';
+import Index from '@Routers/Index.router';
 
 const app = express();
 
@@ -45,7 +45,7 @@ app.use('/tickets', Tickets);
 app.use('/premiums', Premiums);
 app.use('/tokens', Tokens);
 app.use('/auth', Auth);
-app.use('/test', Test);
+app.use('/', Index);
 app.use(logErrors);
 app.use(boomErrorHandlr);
 app.use(ErrorHandler);

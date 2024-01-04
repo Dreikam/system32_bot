@@ -5,9 +5,10 @@ import { PremiumsController } from '@Controllers/Premiums.controller';
 const app = Router();
 const controller = new PremiumsController();
 
-app.get('/:premiumId', controller.getPremium);
-app.post('/', controller.createPremium);
-app.patch('/:premiumId', controller.updatePremium);
-app.delete('/:premiumId', controller.deletePremium);
+app.get('/', controller.getAllPremiums);
+app.get('/:id', controller.getGuildPremium);
+app.post('/', controller.redeemCode);
 
+//Members
+app.get('/member/:id', controller.getPremiumByMember);
 export default app;
