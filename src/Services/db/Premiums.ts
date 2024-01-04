@@ -1,18 +1,71 @@
 import { db as prisma } from '@Services/db';
 
 export class PremiumsServices {
-  createPremium(data: any) {
+  getAllPremiums() {
+    return prisma.premium.findMany({
+      select: {
+        id: true,
+        guild: true,
+        member: true,
+        token: true,
+      },
+    });
+  }
+
+  getGuildPremium(data: any) {
+    const { guildId, tokenId } = data;
+    return prisma.premium.findFirst({
+      where: {
+        OR: [
+          {
+            guildId: {
+              equals: guildId,
+            },
+          },
+          {
+            tokenId: {
+              equals: tokenId,
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        guild: true,
+        member: true,
+        token: true,
+      },
+    });
+  }
+
+  getPremiumByMember(memberId: string) {
+    return prisma.premium.findMany({
+      where: {
+        memberId: {
+          equals: memberId,
+        },
+      },
+      select: {
+        id: true,
+        guild: true,
+        member: true,
+        token: true,
+      },
+    });
+  }
+
+  redeemCode(data: any) {
     const { guildId, memberId, tokenId } = data;
     return prisma.premium.create({
       data: {
         guild: {
           connect: {
-            guildId,
+            guildId: guildId,
           },
         },
         member: {
           connect: {
-            id: memberId,
+            discordId: memberId,
           },
         },
         token: {
@@ -20,31 +73,6 @@ export class PremiumsServices {
             id: tokenId,
           },
         },
-      },
-    });
-  }
-
-  getPremium(premiumId: string) {
-    return prisma.premium.findFirst({
-      where: {
-        id: premiumId,
-      },
-    });
-  }
-
-  updatePremium(premiumId: string, data: any) {
-    return prisma.premium.update({
-      where: {
-        id: premiumId,
-      },
-      data,
-    });
-  }
-
-  deletePremium(premiumId: string) {
-    return prisma.premium.delete({
-      where: {
-        id: premiumId,
       },
     });
   }

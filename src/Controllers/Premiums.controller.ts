@@ -1,38 +1,65 @@
 import type { Request, Response, NextFunction } from 'express';
 import { PremiumsServices } from '@Services/db/Premiums';
+import boom from '@hapi/boom';
 
 const services = new PremiumsServices();
 
 export class PremiumsController {
-  async getPremium(req: Request, res: Response, next: NextFunction) {
-    const getPremium = await services.getPremium(req.params.id);
+  async getAllPremiums(req: Request, res: Response, next: NextFunction) {
+    try {
+      const premiums = await services.getAllPremiums();
 
-    return res.json({
-      data: getPremium,
-    });
+      return res.json({
+        data: premiums,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error obteniendo los datos'));
+    }
   }
 
-  async createPremium(req: Request, res: Response, next: NextFunction) {
-    const createPremium = await services.createPremium(req.body);
+  async getGuildPremium(req: Request, res: Response, next: NextFunction) {
+    try {
+      const getPremium = await services.getGuildPremium(req.params.id);
 
-    return res.json({
-      data: createPremium,
-    });
+      return res.json({
+        data: getPremium,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error obteniendo los datos'));
+    }
   }
 
-  async updatePremium(req: Request, res: Response, next: NextFunction) {
-    const updatePremium = await services.updatePremium(req.params.id, req.body);
+  async getPremiumByMember(req: Request, res: Response, next: NextFunction) {
+    try {
+      const premium = await services.getPremiumByMember(req.params.id);
 
-    return res.json({
-      data: updatePremium,
-    });
+      return res.json({
+        data: premium,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error obteniendo los datos'));
+    }
   }
 
-  async deletePremium(req: Request, res: Response, next: NextFunction) {
-    const deletePremium = await services.deletePremium(req.params.id);
+  async redeemCode(req: Request, res: Response, next: NextFunction) {
+    const exist = await services.getGuildPremium(req.body);
+    if (exist)
+      return next(
+        boom.forbidden('El token o el servidor ya se encuentra activado')
+      );
 
-    return res.json({
-      data: deletePremium,
-    });
+    try {
+      const redeem = await services.redeemCode(req.body);
+
+      return res.json({
+        data: redeem,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error canjeando el codigo'));
+    }
   }
 }

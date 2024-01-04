@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum STATUS {
+  ACTIVE
+  UNACTIVE
+  EXPIRED
+}
+
 model Guilds {
   id String @id @default(uuid())
   guildId String @unique
@@ -99,10 +105,11 @@ model Premium {
   guild Guilds @relation(fields: [guildId], references: [guildId])
   guildId String @unique
   member Members @relation(fields: [memberId], references: [discordId])
-  memberId String @unique
+  memberId String 
   token Tokens @relation(fields: [tokenId], references: [id])
   tokenId String @unique
   redeemedOn DateTime @default(now())
+  status STATUS @default(ACTIVE)
 }
 
 model Tokens {
@@ -110,6 +117,7 @@ model Tokens {
   token String @unique
   premium Premium[]
   createdAt DateTime @default(now())
+  status STATUS @default(UNACTIVE)
 }
 
 // INSERT INT TABLA (asdasd, asdasd) VALUES (UUID(), 'asdasdasd')
