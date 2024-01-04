@@ -37,6 +37,19 @@ export class GuildController {
     }
   }
 
+  async getAllGuildMembers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const guildData = await services.getAllGuildMembers(req.params.id);
+
+      return res.json({
+        data: guildData,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error obteniendo los datos'));
+    }
+  }
+
   async createGuild(req: Request, res: Response, next: NextFunction) {
     const guild = await services.getGuild(req.body.guildId);
     if (guild) return res.json('Ya existe');

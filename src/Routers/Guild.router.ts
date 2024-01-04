@@ -15,6 +15,7 @@ const controller = new GuildController();
 
 app.get('/', controller.getGuilds);
 app.get('/:id', controller.getGuild);
+app.get('/:id/members', controller.getAllGuildMembers);
 app.post('/', validatorHandler(createGuild, 'body'), controller.createGuild);
 app.patch(
   '/:id',
