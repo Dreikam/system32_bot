@@ -1,12 +1,6 @@
 import { db as prisma } from '@Services/db';
 
 export class TokensService {
-  createToken(data: any) {
-    return prisma.tokens.create({
-      data,
-    });
-  }
-
   getToken(id: string) {
     return prisma.tokens.findFirst({
       where: {
@@ -26,12 +20,26 @@ export class TokensService {
     });
   }
 
-  updateToken(id: string, data: any) {
+  getAllTokens() {
+    return prisma.tokens.findMany();
+  }
+
+  createToken(token: string) {
+    return prisma.tokens.create({
+      data: {
+        token,
+      },
+    });
+  }
+
+  updateToken(id: string, token: string) {
     return prisma.tokens.update({
       where: {
         id,
       },
-      data,
+      data: {
+        token,
+      },
     });
   }
 
