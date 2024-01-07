@@ -5,6 +5,7 @@ import session from 'express-session';
 import passport from '@Services/auth';
 import cors from 'cors';
 import 'dotenv/config';
+import { randomUUID } from 'crypto';
 
 import {
   ErrorHandler,
@@ -31,7 +32,7 @@ app.use(
 );
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: randomUUID(),
     resave: true,
     saveUninitialized: true,
   })

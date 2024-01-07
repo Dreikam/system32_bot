@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
-import { TokensService } from '@Services/db/Tokens';
+import { TokensServices } from '@Services/db/Tokens';
 import { generateToken } from '@Utils/Tokens';
 import boom from '@hapi/boom';
 
-const services = new TokensService();
+const services = new TokensServices();
 
 export class TokensController {
   async getToken(req: Request, res: Response, next: NextFunction) {

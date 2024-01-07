@@ -56,6 +56,14 @@ export class PremiumsServices {
 
   redeemCode(data: any) {
     const { guildId, memberId, tokenId } = data;
+    prisma.tokens.update({
+      where: {
+        id: tokenId,
+      },
+      data: {
+        status: 'ACTIVE',
+      },
+    });
     return prisma.premium.create({
       data: {
         guild: {
