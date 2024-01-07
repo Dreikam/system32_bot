@@ -1,5 +1,4 @@
 import boom from '@hapi/boom';
-import { NextFunction } from 'express';
 
 export const checkIfRecordExist = async (
   services: Array<any>,

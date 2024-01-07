@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import boom from '@hapi/boom';
 import { MembersServices } from '@Services/db/Members';
 import { IMembers } from '@Interfaces/Members.interace';
+import { checkIfRecordExist } from '@Utils/Validations/CheckIfRecordExist';
 
 const services = new MembersServices();
 
@@ -50,8 +51,12 @@ export class MembersController {
   }
 
   async updateMember(req: Request, res: Response, next: NextFunction) {
-    const exist = await services.getMemberById(req.params.id);
-    if (!exist) return next(boom.notFound('El miembro no existe'));
+    const error = await checkIfRecordExist(
+      [services.getMemberById(req.params.id)],
+      'El miembro no existe'
+    );
+
+    if (error) return next(error);
 
     try {
       const updateMember = await services.updateMember(
@@ -70,8 +75,12 @@ export class MembersController {
   }
 
   async deleteMember(req: Request, res: Response, next: NextFunction) {
-    const exist = await services.getMemberById(req.params.id);
-    if (!exist) return next(boom.notFound('El miembro no existe'));
+    const error = await checkIfRecordExist(
+      [services.getMemberById(req.params.id)],
+      'El miembro no existe'
+    );
+
+    if (error) return next(error);
 
     try {
       const deleteMember = await services.deleteMember(req.params.id);

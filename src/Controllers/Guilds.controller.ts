@@ -5,6 +5,7 @@ import { GuildConfigsServices } from '@Services/db/GuildConfig';
 import boom from '@hapi/boom';
 import { IGuildCreate, IGuildUpdate } from '@Interfaces/Guilds.interface';
 import { IChannels, IChannelsUpdate } from '@Interfaces/Channels.interface';
+import { checkIfRecordExist } from '@Utils/Validations/CheckIfRecordExist';
 
 const services = new GuildServices();
 const channelServices = new ChannelsServices();
@@ -68,8 +69,12 @@ export class GuildController {
   }
 
   async updateGuild(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('Servidor no encontrado'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     try {
       const editGuild = await services.updateGuild(
@@ -93,8 +98,12 @@ export class GuildController {
         boom.notFound('No has ingresado el ID del miembro o servidor')
       );
 
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     const exist = await services.getRelation(
       req.body.guildId,
@@ -117,8 +126,12 @@ export class GuildController {
   }
 
   async deleteGuild(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     try {
       const deleteGuild = await services.deleteGuild(req.params.id);
@@ -139,8 +152,12 @@ export class GuildController {
         boom.notFound('No has ingresado el ID del miembro o servidor')
       );
 
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     const exist = await services.getRelation(
       req.body.guildId,
@@ -169,8 +186,12 @@ export class GuildController {
 
   //Channels
   async getGuildChannels(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('No existe el servidor'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     try {
       const channels = await channelServices.getGuildChannels(req.params.id);
@@ -185,8 +206,12 @@ export class GuildController {
   }
 
   async createChannel(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('No existe el servidor'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     const existChannel = await channelServices.getChannelById(
       req.body.channelId
@@ -211,14 +236,15 @@ export class GuildController {
   }
 
   async updateChannel(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('No existe el servidor'));
-
-    const existChannel = await channelServices.getChannelById(
-      req.body.channelId
+    const error = await checkIfRecordExist(
+      [
+        services.getGuild(req.params.id),
+        channelServices.getChannelById(req.body.channelId),
+      ],
+      'Verifica que los datos ingresados sean validos'
     );
-    if (!existChannel)
-      return next(boom.notFound('El canal no existe en este servidor'));
+
+    if (error) return next(error);
 
     try {
       const updatedChannel = await channelServices.updateChannel(
@@ -237,14 +263,15 @@ export class GuildController {
   }
 
   async deleteChannel(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('No existe el servidor'));
-
-    const existChannel = await channelServices.getChannelById(
-      req.body.channelId
+    const error = await checkIfRecordExist(
+      [
+        services.getGuild(req.params.id),
+        channelServices.getChannelById(req.body.channelId),
+      ],
+      'Verifica que los datos ingresados sean validos'
     );
-    if (!existChannel)
-      return next(boom.notFound('El canal no existe en este servidor'));
+
+    if (error) return next(error);
 
     try {
       const deletedChannel = await channelServices.deleteChannel(
@@ -263,8 +290,12 @@ export class GuildController {
 
   //Guild Config
   async getConfig(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     try {
       const config = await configServices.getConfig(req.params.id);
@@ -282,8 +313,12 @@ export class GuildController {
     if (Object.keys(req.body).length === 0)
       return next(boom.badData('No has ingresado datos'));
 
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
 
     const exist = await configServices.getConfig(req.params.id);
     if (exist)
@@ -308,12 +343,15 @@ export class GuildController {
     if (Object.keys(req.body).length === 0)
       return next(boom.badData('No has ingresado datos'));
 
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [
+        services.getGuild(req.params.id),
+        configServices.getConfig(req.params.id),
+      ],
+      'Verifica que los datos ingresados sean validos'
+    );
 
-    const exist = await configServices.getConfig(req.params.id);
-    if (!exist)
-      return next(boom.forbidden('El servidor no tiene una configuracion'));
+    if (error) return next(error);
 
     try {
       const updatedConfig = await configServices.updateConfig(
@@ -331,12 +369,15 @@ export class GuildController {
   }
 
   async deleteConfig(req: Request, res: Response, next: NextFunction) {
-    const guild = await services.getGuild(req.params.id);
-    if (!guild) return next(boom.notFound('El servidor no existe'));
+    const error = await checkIfRecordExist(
+      [
+        services.getGuild(req.params.id),
+        configServices.getConfig(req.params.id),
+      ],
+      'Verifica que los datos ingresados sean validos'
+    );
 
-    const exist = await configServices.getConfig(req.params.id);
-    if (!exist)
-      return next(boom.forbidden('El servidor no tiene una configuracion'));
+    if (error) return next(error);
 
     try {
       const deletedConfig = await configServices.deleteConfig(
