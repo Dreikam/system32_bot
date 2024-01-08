@@ -1,9 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
-import { TokensService } from '@Services/db/Tokens';
+import { TokensServices } from '@Services/db/Tokens';
 import { generateToken } from '@Utils/Tokens';
 import boom from '@hapi/boom';
+import { checkIfRecordExist } from '@Utils/Validations/CheckIfRecordExist';
 
-const services = new TokensService();
+const services = new TokensServices();
 
 export class TokensController {
   async getToken(req: Request, res: Response, next: NextFunction) {
@@ -49,6 +50,13 @@ export class TokensController {
   }
 
   async updateToken(req: Request, res: Response, next: NextFunction) {
+    const error = await checkIfRecordExist(
+      [services.getToken(req.params.id)],
+      'Verifica el dato ingresado'
+    );
+
+    if (error) return next(error);
+
     try {
       const updateToken = await services.updateToken(req.params.id, req.body);
 
@@ -63,6 +71,13 @@ export class TokensController {
   }
 
   async deleteToken(req: Request, res: Response, next: NextFunction) {
+    const error = await checkIfRecordExist(
+      [services.getToken(req.params.id)],
+      'Verifica el dato ingresado'
+    );
+
+    if (error) return next(error);
+
     try {
       const deleteToken = await services.deleteToken(req.params.id);
 

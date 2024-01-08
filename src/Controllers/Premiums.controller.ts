@@ -1,8 +1,15 @@
 import type { Request, Response, NextFunction } from 'express';
 import { PremiumsServices } from '@Services/db/Premiums';
 import boom from '@hapi/boom';
+import { TokensServices } from '@Services/db/Tokens';
+import { MembersServices } from '@Services/db/Members';
+import { GuildServices } from '@Services/db/Guilds';
+import { checkIfRecordExist } from '@Utils/Validations/CheckIfRecordExist';
 
 const services = new PremiumsServices();
+const { getToken } = new TokensServices();
+const { getGuild } = new GuildServices();
+const { getMemberById } = new MembersServices();
 
 export class PremiumsController {
   async getAllPremiums(req: Request, res: Response, next: NextFunction) {
@@ -45,6 +52,17 @@ export class PremiumsController {
   }
 
   async redeemCode(req: Request, res: Response, next: NextFunction) {
+    const error = await checkIfRecordExist(
+      [
+        getToken(req.body.tokenId),
+        getGuild(req.body.guildId),
+        getMemberById(req.body.memberId),
+      ],
+      'Verifica los datos ingresados'
+    );
+
+    if (error) return next(error);
+
     const exist = await services.getGuildPremium(req.body);
     if (exist)
       return next(

@@ -1,6 +1,6 @@
 import { db as prisma } from '@Services/db';
 
-export class TokensService {
+export class TokensServices {
   getToken(id: string) {
     return prisma.tokens.findFirst({
       where: {
