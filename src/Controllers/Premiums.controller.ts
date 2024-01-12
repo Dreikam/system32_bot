@@ -8,7 +8,7 @@ import { checkIfRecordExist } from '@Utils/Validations/CheckIfRecordExist';
 
 const services = new PremiumsServices();
 const { getToken } = new TokensServices();
-const { getGuild } = new GuildServices();
+const { getGuild, getRelation } = new GuildServices();
 const { getMemberById } = new MembersServices();
 
 export class PremiumsController {
@@ -57,6 +57,7 @@ export class PremiumsController {
         getToken(req.body.tokenId),
         getGuild(req.body.guildId),
         getMemberById(req.body.memberId),
+        getRelation(req.body.guildId, req.body.memberId),
       ],
       'Verifica los datos ingresados'
     );
