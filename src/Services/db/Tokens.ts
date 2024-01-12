@@ -24,24 +24,32 @@ export class TokensServices {
     return prisma.tokens.findMany();
   }
 
-  createToken(token: string) {
+  createToken(token: string, data: any) {
+    const { price, memberId, expiresIn } = data;
     return prisma.tokens.create({
       data: {
         token,
+        price,
+        expiresIn,
+        member: {
+          connect: {
+            discordId: memberId,
+          },
+        },
       },
     });
   }
 
-  updateToken(id: string, token: string) {
-    return prisma.tokens.update({
-      where: {
-        id,
-      },
-      data: {
-        token,
-      },
-    });
-  }
+  // updateToken(id: string, token: string) {
+  //   return prisma.tokens.update({
+  //     where: {
+  //       id,
+  //     },
+  //     data: {
+  //       token,
+  //     },
+  //   });
+  // }
 
   deleteToken(id: string) {
     return prisma.tokens.delete({

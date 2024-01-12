@@ -62,6 +62,11 @@ export class PremiumsServices {
       },
       data: {
         status: 'ACTIVE',
+        member: {
+          connect: {
+            discordId: memberId,
+          },
+        },
       },
     });
     return prisma.premium.create({
