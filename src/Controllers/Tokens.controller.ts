@@ -37,7 +37,7 @@ export class TokensController {
     try {
       const token = generateToken();
 
-      const createToken = await services.createToken(token);
+      const createToken = await services.createToken(token, req.body);
 
       return res.json({
         message: 'Token creado con exito',
@@ -49,26 +49,26 @@ export class TokensController {
     }
   }
 
-  async updateToken(req: Request, res: Response, next: NextFunction) {
-    const error = await checkIfRecordExist(
-      [services.getToken(req.params.id)],
-      'Verifica el dato ingresado'
-    );
+  // async updateToken(req: Request, res: Response, next: NextFunction) {
+  //   const error = await checkIfRecordExist(
+  //     [services.getToken(req.params.id)],
+  //     'Verifica el dato ingresado'
+  //   );
 
-    if (error) return next(error);
+  //   if (error) return next(error);
 
-    try {
-      const updateToken = await services.updateToken(req.params.id, req.body);
+  //   try {
+  //     const updateToken = await services.updateToken(req.params.id, req.body);
 
-      return res.json({
-        message: 'Token actualizado con exito',
-        data: updateToken,
-      });
-    } catch (error) {
-      console.log(error);
-      return next(boom.internal('Hubo un error actualizando el token'));
-    }
-  }
+  //     return res.json({
+  //       message: 'Token actualizado con exito',
+  //       data: updateToken,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     return next(boom.internal('Hubo un error actualizando el token'));
+  //   }
+  // }
 
   async deleteToken(req: Request, res: Response, next: NextFunction) {
     const error = await checkIfRecordExist(

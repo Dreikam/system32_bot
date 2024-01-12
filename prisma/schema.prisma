@@ -40,6 +40,7 @@ model Members {
   bot Boolean @default(false)
   premium Premium[]
   createdAT DateTime @default(now())
+  tokens Tokens[]
 
   guilds MemberGuilds[]
   @@index([discordId])
@@ -115,10 +116,11 @@ model Premium {
 model Tokens {
   id String @id @default(uuid())
   token String @unique
-  premium Premium[]
+  premium Premium?
   createdAt DateTime @default(now())
+  expiresIn DateTime
   status STATUS @default(UNACTIVE)
+  price Decimal
+  member Members @relation(fields: [memberId], references: [discordId])
+  memberId String
 }
-
-// INSERT INT TABLA (asdasd, asdasd) VALUES (UUID(), 'asdasdasd')
-// https://www.prisma.io/docs/concepts/components/prisma-schema/relations
