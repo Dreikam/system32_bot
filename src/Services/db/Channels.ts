@@ -43,8 +43,8 @@ export class ChannelsServices {
     });
   }
 
-  updateChannel(channelId: string, data: IChannelsUpdate) {
-    const { name, type } = data;
+  updateChannel(data: IChannelsUpdate) {
+    const { channelId, name, type } = data;
 
     return prisma.guildChannels.update({
       where: {

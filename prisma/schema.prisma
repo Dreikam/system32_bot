@@ -48,7 +48,7 @@ model Members {
 
 model MemberGuilds {
   id String @id @default(uuid())
-  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guild Guilds @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId String
   member Members @relation(fields: [memberId], references: [discordId])
   memberId String
@@ -62,7 +62,7 @@ model GuildChannels {
   name String
   channelId String @unique
   type Int
-  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guild Guilds @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId String
 
   @@index([channelId])
@@ -70,7 +70,7 @@ model GuildChannels {
 
 model GuildConfig {
   id String @id @default(uuid())
-  guild Guilds @relation(fields: [guildId], references: [guildId])
+  guild Guilds @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId String @unique
   logsChannel String?
   modRoles String?

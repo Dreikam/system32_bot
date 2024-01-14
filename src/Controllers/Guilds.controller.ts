@@ -138,7 +138,7 @@ export class GuildController {
       const addedMember = await services.addMember(req.body as IGuildUpdate);
 
       return res.json({
-        message: 'Miembro actualizado con exito',
+        message: 'Miembro agregado con exito',
         data: addedMember,
       });
     } catch (error) {
@@ -176,7 +176,7 @@ export class GuildController {
       const { member } = await services.removeMember(exist.id);
 
       return res.json({
-        message: 'Miembro eliminado con exito',
+        message: 'Miembro removido del servidor con exito',
         data: member,
       });
     } catch (error) {
@@ -249,7 +249,6 @@ export class GuildController {
 
     try {
       const updatedChannel = await channelServices.updateChannel(
-        req.params.id,
         req.body as IChannelsUpdate
       );
 

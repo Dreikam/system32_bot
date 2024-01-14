@@ -110,7 +110,7 @@ export class GuildServices {
   async addMember(data: IGuildUpdate) {
     const { guildId, member } = data;
 
-    return prisma.guilds.update({
+    const guild = await prisma.guilds.update({
       where: {
         guildId,
       },
@@ -134,6 +134,8 @@ export class GuildServices {
         },
       },
     });
+
+    return { member, guild };
   }
 
   async removeMember(id: string) {
@@ -150,7 +152,7 @@ export class GuildServices {
   deleteGuild(guildId: string) {
     return prisma.guilds.delete({
       where: {
-        guildId,
+        guildId: guildId,
       },
     });
   }
