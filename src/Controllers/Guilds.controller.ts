@@ -53,7 +53,7 @@ export class GuildController {
 
   async createGuild(req: Request, res: Response, next: NextFunction) {
     const guild = await services.getGuild(req.body.guildId);
-    if (guild) return res.json('Ya existe');
+    if (guild) return next(boom.forbidden('Ya existe el servidor'));
 
     try {
       const createGuild = await services.createGuild(req.body as IGuildCreate);
@@ -92,6 +92,28 @@ export class GuildController {
     }
   }
 
+  async deleteGuild(req: Request, res: Response, next: NextFunction) {
+    const error = await checkIfRecordExist(
+      [services.getGuild(req.params.id)],
+      'Verifica que los datos ingresados sean validos'
+    );
+
+    if (error) return next(error);
+
+    try {
+      const deleteGuild = await services.deleteGuild(req.params.id);
+
+      return res.json({
+        message: 'Servidor eliminado con exito',
+        data: deleteGuild,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(boom.internal('Hubo un error eliminando el servidor'));
+    }
+  }
+
+  //Members
   async addMember(req: Request, res: Response, next: NextFunction) {
     if (!req.body.member.discordId || !req.body.guildId)
       return next(
@@ -122,27 +144,6 @@ export class GuildController {
     } catch (error) {
       console.log(error);
       return next(boom.internal('Hubo un error añadiendo el miembro'));
-    }
-  }
-
-  async deleteGuild(req: Request, res: Response, next: NextFunction) {
-    const error = await checkIfRecordExist(
-      [services.getGuild(req.params.id)],
-      'Verifica que los datos ingresados sean validos'
-    );
-
-    if (error) return next(error);
-
-    try {
-      const deleteGuild = await services.deleteGuild(req.params.id);
-
-      return res.json({
-        message: 'Servidor eliminado con exito',
-        data: deleteGuild,
-      });
-    } catch (error) {
-      console.log(error);
-      return next(boom.internal('Hubo un error eliminando el servidor'));
     }
   }
 
